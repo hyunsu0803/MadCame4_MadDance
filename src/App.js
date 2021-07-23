@@ -14,21 +14,6 @@ class App extends Component {
 
         <Router>
 
-          <header>
-          <Link to="/">
-            
-          </Link>
-            <Link to="/game1">
-              <button>Game1</button>
-            </Link>
-            <Link to="/game2">
-              <button>Game2</button>
-            </Link>
-            <Link to="/game3">
-              <button>Game3</button>
-            </Link>
-          </header>
-
           <main>
             <Route exact path="/" component={Home}>
               
@@ -39,6 +24,8 @@ class App extends Component {
           </main>
 
         </Router>
+
+  
         
       </div>
     );
