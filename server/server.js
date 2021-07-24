@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cors());
 
-// app.use('/api', api);
+app.use('/api', api);
 app.use('/board1', board1Router);
 // app.use('/board2', board2Router);
 // app.use('/board3', board3Router);

@@ -8,11 +8,7 @@ import ScoreItem from './ScoreItem';
 import axios from "axios";
 
 class Home extends Component {
-
-    state = {
-        Nickname : "login_please"
-    }
-
+   
     setNickname = (nickname) => {
         this.setState({Nickname : nickname});
         console.log("Home : ", this.state.Nickname);
@@ -21,12 +17,34 @@ class Home extends Component {
     getNickname = () => {
         return this.state.Nickname;
     }
+    constructor(props){
+        super(props);
+        this.state = {
+            board1: [],
+            board2 : [],
+            board3 : [],
+            Nickname : "login_please"
+        };
+    }
 
     componentDidMount() {
         axios.get(`/api/board1/`)
         .then(response => {
-            console.log(response)
-        });
+            console.log(response);
+            this.setState({board1 : [...response.data]});
+        }).then(
+        axios.post(`/api/board1/add`, {
+            name : "hyemin",
+            score : 20
+        }).then(response=> console.log(response.status)))
+        // axios.get(`/api/board2/`)
+        // .then(response => {
+        //     console.log(response)
+        // });
+        // axios.get(`/api/board3/`)
+        // .then(response => {
+        //     console.log(response)
+        // });
     }
 
     render() {
@@ -61,52 +79,26 @@ class Home extends Component {
                                         GAME 1 Score Board <br/>
                                         -----------------------------
                                     </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
-                                    
-                                </div>
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 2 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
-                                </div>
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 3 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
+                                    {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
                                 </div>
                             </div>
+                            <div className="board-item">
+                                <div className="ScoreBoard">
+                                    GAME 2 Score Board <br/>
+                                    -----------------------------
+                                </div>
+                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                            </div>
+                            <div className="board-item">
+                                <div className="ScoreBoard">
+                                    GAME 3 Score Board <br/>
+                                    -----------------------------
+                                </div>
+                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                            </div>
                         </div>
+    
+                        
                     </body>
                 </div>
             );
@@ -124,7 +116,7 @@ class Home extends Component {
     
                     <body>
                         <div className="carousel">
-                            <div className="carousel-content" >
+                            <div className="carousel-content">
                                 <Link to="/game1" className="carousel-item">GAME 1</Link>
                                 <Link to="/game2" className="carousel-item">GAME 2</Link>
                                 <Link to="/game3" className="carousel-item">GAME 3</Link>
@@ -138,57 +130,30 @@ class Home extends Component {
                                         GAME 1 Score Board <br/>
                                         -----------------------------
                                     </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
-                                    
-                                </div>
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 2 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
-                                </div>
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 3 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                    <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                    <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                    <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
+                                    {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
                                 </div>
                             </div>
+                            <div className="board-item">
+                                <div className="ScoreBoard">
+                                    GAME 2 Score Board <br/>
+                                    -----------------------------
+                                </div>
+                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                            </div>
+                            <div className="board-item">
+                                <div className="ScoreBoard">
+                                    GAME 3 Score Board <br/>
+                                    -----------------------------
+                                </div>
+                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                            </div>
                         </div>
+    
+                        
                     </body>
                 </div>
             );
         }
-        
     }
 }
 

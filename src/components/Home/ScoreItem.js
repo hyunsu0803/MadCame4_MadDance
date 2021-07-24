@@ -4,9 +4,9 @@ class ScoreItem extends Component{
     render(){
         return(
             <div className="scoreitem">
-                <span className="ranking">{this.props.ranking}</span>
-                <span className="playerName">{this.props.name}</span>
-                <span className="score">{this.props.score}</span>
+                <span className="ranking">{this.props.row.rank}</span>
+                <span className="playerName">{this.props.row.name}</span>
+                <span className="score">{this.props.row.score}</span>
             </div>
         );
     }
