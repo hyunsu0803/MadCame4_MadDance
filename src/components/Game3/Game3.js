@@ -3,10 +3,11 @@ import { Link, Route, BrowserRouter as Router } from "react-router-dom";
 
 class Game3 extends Component {
     render() {
+        
         return(
             <div>
                 <header>
-                    <Link to="/">
+                    <Link to={{pathname : "/", state:{nickname : this.props.location.state.nickname}}}>
                     <div class="button_base b05_3d_roll">
                         <div>HOME</div>
                         <div>HOME</div>

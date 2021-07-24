@@ -10,12 +10,12 @@ import axios from "axios";
 class Home extends Component {
    
     setNickname = (nickname) => {
-        this.setState({Nickname : nickname});
-        console.log("Home : ", this.state.Nickname);
+        this.setState({nickname : nickname});
+        console.log("Home : ", this.state.nickname);
     }
 
     getNickname = () => {
-        return this.state.Nickname;
+        return this.state.nickname;
     }
     constructor(props){
         super(props);
@@ -23,7 +23,7 @@ class Home extends Component {
             board1: [],
             board2 : [],
             board3 : [],
-            Nickname : "login_please"
+            nickname : "login_please"
         };
     }
 
@@ -45,9 +45,33 @@ class Home extends Component {
         // .then(response => {
         //     console.log(response)
         // });
+
+        
+        if(this.props.location.state  !== undefined) {
+            this.setState({nickname : this.props.location.state.nickname});
+            console.log("componentDidMount : ",this.props.location.state.nickname);
+        }
     }
 
     render() {
+        let gameCard = null;
+        if(this.state.nickname === "login_please"){
+            gameCard = <div onClick={function(e){
+                e.preventDefault();
+                alert("Login first. Please input any nickname");
+            }}>
+            <div className="carousel-item">GAME 1</div>
+            <div className="carousel-item">GAME 2</div>
+            <div className="carousel-item">GAME 3</div>
+            </div>
+        } else {
+            gameCard = <div>
+            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 1</Link>
+            <Link to={{pathname : "/game2", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 2</Link>
+            <Link to={{pathname : "/game3", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 3</Link>
+            </div>
+        }
+
         return(
             <div>
                 <br/>
@@ -60,23 +84,8 @@ class Home extends Component {
 
                 <body>
                     <div className="carousel">
-                        <div className="carousel-content"
-                        onClick={function(e){
-                            this.state.Nickname === 'login_please'
-                            ? <div>
-                                <div className="carousel-item">GAME 1</div>
-                                <div className="carousel-item">GAME 2</div>
-                                <div className="carousel-item">GAME 3</div>
-                            </div>
-                            : <div>
-                                <Link to="/game1" className="carousel-item">GAME 1</Link>
-                                <Link to="/game2" className="carousel-item">GAME 2</Link>
-                                <Link to="/game3" className="carousel-item">GAME 3</Link>
-                            </div>;
-                        }.bind(this)}>
-                            <div className="carousel-item">GAME 1</div>
-                            <div className="carousel-item">GAME 2</div>
-                            <div className="carousel-item">GAME 3</div>
+                        <div className="carousel-content">
+                            {gameCard}                            
                         </div>
                     </div>
 
