@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import { Link, Route, BrowserRouter as Router } from "react-router-dom";
+
 import Home from './components/Home/Home';
 import Game1 from './components/Game1';
 import Game2 from './components/Game2';

@@ -1,0 +1,90 @@
+import React, {Component} from 'react'
+import { Link } from "react-router-dom";
+import Camera from './camera.js'
+import Timer from './timer.js'
+import { poseSimilarity } from 'posenet-similarity';
+import * as posenet from '@tensorflow-models/posenet';
+
+
+async function estimatePoseOnImage(imageElement) {
+  const net = await posenet.load({
+    architecture: 'MobileNetV1',
+    outputStride: 16,
+    inputResolution: { width: 640, height: 480 },
+    multiplier: 0.75
+  });
+  // Estimate the pose on the imageElement
+  const pose = await net.estimateSinglePose(imageElement);
+  return pose;
+}
+
+class Game1 extends Component {
+
+    constructor(props){
+        super(props, Game1.defaultProps);
+        this.state = {
+            currentImgNum : 0,
+            imgList : [],
+            isTimerActive : true,
+            answerPose : {}
+        }
+    }
+    
+    async componentDidMount() {
+        console.log("componentDidMout 호출");
+        //이미지 리스트
+        var i;
+        var tempList = [];
+        for (i=1; i<=16 ;i++){
+            tempList.push("/img/posenet_img"+i+".png");
+        } //ex)posenet_img1.png ~ posenet_img16.png로 list 만들어짐
+        console.log(tempList);
+        this.setState({imgList : tempList});
+        this.changePhoto();
+      }
+
+
+    timeOut = () => {  //타이머에서 timeOut 될 때마다 이미지 바꿔주기
+      this.setState({currentImgNum : this.state.currentImgNum+1});
+      if(this.state.currentImgNum===3){
+          this.setState({isTimerActive : false})
+      }
+      console.log("timeout");
+    }
+
+    getPose = (detectedpose) => {
+      let poses = [detectedpose, this.state.answerPose]
+      // Calculate the weighted distance between the two poses
+      console.log(poses[0]);
+      console.log(poses[1]);
+
+      const weightedDistance = poseSimilarity(poses[0], poses[1]);
+      console.log("similarity value is : " + weightedDistance);
+
+    }
+
+    changePhoto = () => {
+      const answerImg = this.answerImg
+      estimatePoseOnImage(answerImg).then((answerPose)=> {
+        this.setState({answerPose :answerPose});
+        console.log(answerPose);
+      }) 
+    }
+
+
+
+    render() {
+        return (
+            <div className = "SpeedGame">
+                <Link to="/">
+                    <button>Home</button>
+                </Link>
+                {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
+                <Camera getPose = {this.getPose}/>
+                <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
+            </div>
+        )
+    }
+}
+
+export default Game1
