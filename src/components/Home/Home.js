@@ -23,7 +23,11 @@ class Home extends Component {
         .then(response => {
             console.log(response);
             this.setState({board1 : [...response.data]});
-        });
+        }).then(
+        axios.post(`/api/board1/add`, {
+            name : "hyemin",
+            score : 20
+        }).then(response=> console.log(response.status)))
         // axios.get(`/api/board2/`)
         // .then(response => {
         //     console.log(response)
@@ -35,7 +39,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log(this.state.board1);
         return(
             <div>
                 <br/>
@@ -59,7 +62,7 @@ class Home extends Component {
                                     GAME 1 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                {this.state.board1.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))}
+                                {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
