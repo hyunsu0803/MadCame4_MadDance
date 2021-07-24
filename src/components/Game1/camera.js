@@ -57,8 +57,8 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.detectPose();
       this.props.gameStart();
+      this.detectPose();
     }
   }
 
@@ -102,6 +102,7 @@ class PoseNet extends Component {
   }
 
   detectPose() {
+    console.log("detectPose");
     const {videoWidth, videoHeight} = this.props
     const canvas = this.canvas
     const canvasContext = canvas.getContext('2d')

@@ -39,19 +39,20 @@ class Game1 extends Component {
         //import image
         var i;
         var tempList = []
-        for (i=1; i<=6 ;i++){
+        for (i=0; i<10 ;i++){
             tempList.push("/img/posenet_img"+i+".png");
         } 
         this.setState({imgList : tempList});
-        this.changePhoto();
-        estimatePoseOnImage(this.answerImg).then((answerPose)=> this.setState({anwerPose : answerPose}));
+        this.changeAnswerPose();
     }
 
     gameStart = () => {
       console.log("gameStart");
+
+      alert("gameStart");
       this.clockCall = setInterval(() => {
         this.timeOut();
-    } ,3000);
+      } ,3000);
     }
 
     getSimilarity = (detectedpose) => {
@@ -80,10 +81,9 @@ class Game1 extends Component {
       }
       this.similarityPerImg = []; //초기화
 
-      console.log(this.state.currentImgNum);
-      console.log(this.state.imgList.length);
-      if(this.state.currentImgNum<this.state.imgList.length){
-        this.changePhoto(); //answer pose 구하고 사진바꾸기
+      if(this.state.currentImgNum<8){
+        this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
+        this.setState({currentImgNum : this.state.currentImgNum+1})
         // this.activeTimer(); //타이머 시작
       }else{
         clearInterval(this.clockCall);
@@ -92,11 +92,11 @@ class Game1 extends Component {
 
     }
 
-    changePhoto = () => {
-      console.log("current num + "+this.state.currentImgNum);
+    changeAnswerPose = () => {
+      console.log("current num "+this.state.currentImgNum);
       const answerImg = this.answerImg;
       estimatePoseOnImage(answerImg).then((answerPose) => {
-        this.setState({answerPose :answerPose, currentImgNum : this.state.currentImgNum+1});
+        this.setState({answerPose :answerPose});
         console.log(answerPose);
       })
     }
