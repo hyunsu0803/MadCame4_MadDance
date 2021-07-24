@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Link } from "react-router-dom";
 import Camera from './camera.js'
 import Timer from './timer.js'
+import './Game1.css'
 import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
 
@@ -26,10 +27,13 @@ class Game1 extends Component {
             currentImgNum : 0,
             imgList : [],
             isTimerActive : true,
-            answerPose : {}
+            answerPose : {},
+            
         }
     }
     
+    similarityPerImg = [];
+
     async componentDidMount() {
         console.log("componentDidMout 호출");
         //이미지 리스트
@@ -38,7 +42,6 @@ class Game1 extends Component {
         for (i=1; i<=1 ;i++){
             tempList.push("/img/posenet_img"+i+".png");
         } //ex)posenet_img1.png ~ posenet_img16.png로 list 만들어짐
-        console.log(tempList);
         this.setState({imgList : tempList});
         this.changePhoto();
       }
@@ -52,15 +55,18 @@ class Game1 extends Component {
       console.log("timeout");
     }
 
-    getPose = (detectedpose) => {
+    getSimilarity = (detectedpose) => {
       let poses = [detectedpose, this.state.answerPose]
       // Calculate the weighted distance between the two poses
-      console.log(poses[0]);
-      console.log(poses[1]);
-
+      // console.log(poses[0]);
+      // console.log(poses[1]);
       const weightedDistance = poseSimilarity(poses[0], poses[1]);
-      console.log("similarity value is : " + weightedDistance);
+      // console.log("similarity value is : " + weightedDistance);
+      this.similarityPerImg.push(weightedDistance);
+    }
 
+    getScore = () => {
+      return Math.max(...this.similarityPerImg);
     }
 
     changePhoto = () => {
@@ -81,7 +87,7 @@ class Game1 extends Component {
                         <div>HOME</div>
                     </div>
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
-                <Camera getPose = {this.getPose}/>
+                <Camera getSimilarity = {this.getSimilarity}/>
                 <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
             </div>
         )

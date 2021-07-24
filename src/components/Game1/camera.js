@@ -5,7 +5,7 @@ import * as tf from '@tensorflow/tfjs'
 
 class PoseNet extends Component {
   static defaultProps = {
-    videoWidth: 900,
+    videoWidth: 700,
     videoHeight: 700,
     flipHorizontal: true,
     algorithm: 'single-pose',
@@ -74,8 +74,6 @@ class PoseNet extends Component {
     video.width = videoWidth
     video.height = videoHeight
 
-    var videoSource = ""
-
     navigator.mediaDevices.enumerateDevices().then(
       devices => {
         devices.forEach(device => {
@@ -89,7 +87,7 @@ class PoseNet extends Component {
       video: {
         deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
         facingMode: 'user',
-        width: videoWidth,
+        width:videoWidth,
         height: videoHeight
       }
     })
@@ -161,7 +159,7 @@ class PoseNet extends Component {
           outputStride:16}
           );
           poses.push(pose);
-          this.props.getPose(pose);
+          this.props.getSimilarity(pose);
           break
         }
       }
@@ -172,7 +170,7 @@ class PoseNet extends Component {
         canvasContext.save()
         canvasContext.scale(-1, 1)
         canvasContext.translate(-videoWidth, 0)
-        canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight)
+        canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0,700,700)
         canvasContext.restore()
       }
 
@@ -204,7 +202,7 @@ class PoseNet extends Component {
 
   render() {
     return (
-      <div>
+      <div className = "camera_box">
         <div>
           <video id="videoNoShow" playsInline ref={this.getVideo} style={{display: "none"}}></video>
           <canvas className="webcam" ref={this.getCanvas} />
