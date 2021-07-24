@@ -48,90 +48,46 @@ class Home extends Component {
     }
 
     render() {
-        if (this.state.Nickname === 'login_please'){
-            return(
-                <div>
-                    <br/>
-                    <br/>
-    
-                    <h1 style={{color:'white'}}>MAD DANCE</h1> 
-    
-                    <br/>
-                    <Login setNickname={this.setNickname} getNickname={this.getNickname}></Login>
-    
-                    <body>
-                        <div className="carousel">
-                            <div className="carousel-content" 
-                            onClick={function(e){
-                                e.preventDefault();
-                                alert("Login first. please input any nickname.");
-                            }}>
+        return(
+            <div>
+                <br/>
+                <br/>
+
+                <h1 style={{color:'white'}}>MAD DANCE</h1> 
+
+                <br/>
+                <Login setNickname={this.setNickname} getNickname={this.getNickname}></Login>
+
+                <body>
+                    <div className="carousel">
+                        <div className="carousel-content"
+                        onClick={function(e){
+                            this.state.Nickname === 'login_please'
+                            ? <div>
                                 <div className="carousel-item">GAME 1</div>
                                 <div className="carousel-item">GAME 2</div>
                                 <div className="carousel-item">GAME 3</div>
                             </div>
-                        </div>
-    
-                        <div className="board">
-                            <div className="board-content">
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 1 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
-                                </div>
-                            </div>
-                            <div className="board-item">
-                                <div className="ScoreBoard">
-                                    GAME 2 Score Board <br/>
-                                    -----------------------------
-                                </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
-                            </div>
-                            <div className="board-item">
-                                <div className="ScoreBoard">
-                                    GAME 3 Score Board <br/>
-                                    -----------------------------
-                                </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
-                            </div>
-                        </div>
-    
-                        
-                    </body>
-                </div>
-            );
-        }
-        else {
-            return(
-                <div>
-                    <br/>
-                    <br/>
-    
-                    <h1 style={{color:'white'}}>MAD DANCE</h1> 
-    
-                    <br/>
-                    <Login setNickname={this.setNickname} getNickname={this.getNickname}></Login>
-    
-                    <body>
-                        <div className="carousel">
-                            <div className="carousel-content">
+                            : <div>
                                 <Link to="/game1" className="carousel-item">GAME 1</Link>
                                 <Link to="/game2" className="carousel-item">GAME 2</Link>
                                 <Link to="/game3" className="carousel-item">GAME 3</Link>
-                            </div>
+                            </div>;
+                        }.bind(this)}>
+                            <div className="carousel-item">GAME 1</div>
+                            <div className="carousel-item">GAME 2</div>
+                            <div className="carousel-item">GAME 3</div>
                         </div>
-    
-                        <div className="board">
-                            <div className="board-content">
-                                <div className="board-item">
-                                    <div className="ScoreBoard">
-                                        GAME 1 Score Board <br/>
-                                        -----------------------------
-                                    </div>
-                                    {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
+                    </div>
+
+                    <div className="board">
+                        <div className="board-content">
+                            <div className="board-item">
+                                <div className="ScoreBoard">
+                                    GAME 1 Score Board <br/>
+                                    -----------------------------
                                 </div>
+                                {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
@@ -148,12 +104,13 @@ class Home extends Component {
                                 {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
                             </div>
                         </div>
-    
-                        
-                    </body>
-                </div>
-            );
-        }
+                    </div>
+
+                    
+                </body>
+            </div>
+        );
+        
     }
 }
 
