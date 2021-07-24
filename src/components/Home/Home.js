@@ -7,14 +7,34 @@ import axios from "axios";
 
 class Home extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            board1: [],
+            board2 : [],
+            board3 : []
+        };
+    }
+
+
     componentDidMount() {
         axios.get(`/api/board1/`)
         .then(response => {
-            console.log(response)
+            console.log(response);
+            this.setState({board1 : [...response.data]});
         });
+        // axios.get(`/api/board2/`)
+        // .then(response => {
+        //     console.log(response)
+        // });
+        // axios.get(`/api/board3/`)
+        // .then(response => {
+        //     console.log(response)
+        // });
     }
 
     render() {
+        console.log(this.state.board1);
         return(
             <div>
                 <br/>
@@ -38,49 +58,21 @@ class Home extends Component {
                                     GAME 1 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
-                                
+                                {this.state.board1.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 2 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
+                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 3 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                <ScoreItem ranking="1" name="LeeJuEun" score="100"></ScoreItem>
-                                <ScoreItem ranking="2" name="LeeHyeMin" score="100"></ScoreItem>
-                                <ScoreItem ranking="3" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="4" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="5" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="6" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="7" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="8" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="9" name="KimHyunSoo" score="100"></ScoreItem>
-                                <ScoreItem ranking="10" name="KimHyunSoo" score="100"></ScoreItem>
+                                {/* {this.state.board3.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
                             </div>
                         </div>
                     </div>
