@@ -57,10 +57,9 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.detectPose()
+      this.detectPose();
+      this.props.gameStart();
     }
-
-    // this.detectPose()
   }
 
   async setupCamera() {
@@ -77,7 +76,7 @@ class PoseNet extends Component {
     navigator.mediaDevices.enumerateDevices().then(
       devices => {
         devices.forEach(device => {
-          console.log(device.kind, device.deviceId);
+          // console.log(device.kind, device.deviceId);
         });
       }
     );

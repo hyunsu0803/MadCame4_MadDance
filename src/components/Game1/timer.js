@@ -14,11 +14,7 @@ class Timer extends Component {
         this.decrementClock();
     } ,1000); //setInterval로 1초마다 실행됨
     }
-
-    componentDidUpdate(){
-      
-    }
-
+    
     componentWillUnmount(){
         clearInterval(this.clockCall);
     }
@@ -26,13 +22,13 @@ class Timer extends Component {
     decrementClock = () => {
         this.setState((prevstate)=> ({timer : prevstate.timer-1}));
         if(this.props.isTimerActive){
-          if( this.state.timer<1){
-            clearInterval(this.clockCall);    //stop timer
+          if( this.state.timer<1){  //stop timer
+            clearInterval(this.clockCall);    
             this.props.timeOut(); 
-            this.setState({timer : 3}); 
+            this.setState({timer : this.props.time}); 
               this.clockCall = setInterval(() => {
                 this.decrementClock();
-            } ,1000); //setInterval로 1초마다 실행됨   
+            } ,1000);               //setInterval로 1초마다 실행됨   
           } 
         }else{
           clearInterval(this.clockCall)
