@@ -4,7 +4,17 @@ import './gameCard.css'
 import './scoreBoard.css'
 import './Button.css'
 import ScoreItem from './ScoreItem';
+import axios from "axios";
+
 class Home extends Component {
+
+    componentDidMount() {
+        axios.get(`/api/board1/`)
+        .then(response => {
+            console.log(response)
+        });
+    }
+
     render() {
         return(
             <div>

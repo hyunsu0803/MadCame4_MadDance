@@ -73,9 +73,20 @@ class PoseNet extends Component {
     video.width = videoWidth
     video.height = videoHeight
 
+    var videoSource = ""
+
+    navigator.mediaDevices.enumerateDevices().then(
+      devices => {
+        devices.forEach(device => {
+          console.log(device.kind, device.deviceId);
+        });
+      }
+    );
+
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
+        deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
         facingMode: 'user',
         width: videoWidth,
         height: videoHeight
