@@ -7,7 +7,10 @@ class Game3 extends Component {
             <div>
                 <header>
                     <Link to="/">
-                        <button>Home</button>
+                    <div class="button_base b05_3d_roll">
+                        <div>HOME</div>
+                        <div>HOME</div>
+                    </div>
                     </Link>
                 </header>
 

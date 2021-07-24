@@ -35,7 +35,7 @@ class Game1 extends Component {
         //이미지 리스트
         var i;
         var tempList = [];
-        for (i=1; i<=16 ;i++){
+        for (i=1; i<=1 ;i++){
             tempList.push("/img/posenet_img"+i+".png");
         } //ex)posenet_img1.png ~ posenet_img16.png로 list 만들어짐
         console.log(tempList);
@@ -76,9 +76,10 @@ class Game1 extends Component {
     render() {
         return (
             <div className = "SpeedGame">
-                <Link to="/">
-                    <button>Home</button>
-                </Link>
+                <div class="button_base b05_3d_roll">
+                        <div>HOME</div>
+                        <div>HOME</div>
+                    </div>
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
                 <Camera getPose = {this.getPose}/>
                 <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
