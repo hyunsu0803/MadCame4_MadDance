@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
             console.log(results);
             for(i=0; i<results.length; i++){
                 scoreRecord.push({
-                    rnk : results[i].rank,
+                    rank : results[i].rank,
                     name : results[i].UserName,
                     score : results[i].UserScore
                 })
@@ -30,11 +30,19 @@ router.get("/", (req, res) => {
     })
 });
 
+
 router.post("/add", (req,res) => {
-    res.send();
-})
-router.post("/update", (req,res) => {
-    res.send();
+    console.log("add");
+    connection.query('INSERT INTO brd1 (UserName, UserScore) values (?, ?)', [req.body.name, req.body.score], function(error, results, fields){
+        if(error){
+            console.log(error);
+            res.status(404).send();
+        }
+        else{
+            console.log(results);
+            res.status(200).send();
+        }
+    })
 })
 
 module.exports = router;
