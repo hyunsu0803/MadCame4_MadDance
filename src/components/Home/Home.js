@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Link, Route, BrowserRouter as Router } from "react-router-dom";
 import './gameCard.css'
 import './scoreBoard.css'
+import './Button.css'
 import ScoreItem from './ScoreItem';
 import axios from "axios";
 

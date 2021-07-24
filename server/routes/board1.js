@@ -12,19 +12,17 @@ var connection = mysql.createConnection({
 
 router.get("/", (req, res) => {
     var scoreRecord = new Array();
-    scoreRecord.push({
-        UserName : "hyemin",
-        UserScore : 90
-    })
-    connection.query('select * from brd1', function(error, results, fields){
+    connection.query('SET @ROWNUM:=0;')
+    connection.query('SELECT @ROWNUM:=@ROWNUM+1 AS rank, A.* FROM brd1 A ORDER BY UserScore DESC;', function(error, results, fields){
         if(error){
             console.log(error);
         }else{
             console.log(results);
             for(i=0; i<results.length; i++){
                 scoreRecord.push({
-                    UserName : results[i].UserName,
-                    UserScore : results[i].UserScore
+                    rnk : results[i].rank,
+                    name : results[i].UserName,
+                    score : results[i].UserScore
                 })
             }
             res.send(scoreRecord);
