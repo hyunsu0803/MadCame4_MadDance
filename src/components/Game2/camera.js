@@ -159,7 +159,7 @@ class PoseNet extends Component {
           outputStride:16}
           );
           poses.push(pose);
-          this.props.getSimilarity(pose);
+          // this.props.getSimilarity(pose);
           break
         }
       }
