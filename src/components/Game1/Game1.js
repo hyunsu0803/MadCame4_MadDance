@@ -122,10 +122,12 @@ class Game1 extends Component {
     render() {
         return (
             <div className = "SpeedGame">
+              <Link to={{pathname : "/", state:{nickname : this.props.location.state.nickname}}}>
                 <div class="button_base b05_3d_roll">
                         <div>HOME</div>
                         <div>HOME</div>
-                    </div>
+                </div>
+              </Link>
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
                 <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/>
