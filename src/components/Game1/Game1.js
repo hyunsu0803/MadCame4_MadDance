@@ -6,7 +6,6 @@ import './Game1.css'
 import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
 
-
 async function estimatePoseOnImage(imageElement) {
   const net = await posenet.load({
     architecture: 'MobileNetV1',
@@ -27,7 +26,9 @@ class Game1 extends Component {
             currentImgNum : 0,
             isTimerActive : true,
             answerPose : {},
-            imgList : []
+            imgList : [],
+            scoreMent : "",
+            animationClass : ""
         }
     }
     
@@ -52,6 +53,7 @@ class Game1 extends Component {
       alert("gameStart");
       this.clockCall = setInterval(() => {
         this.timeOut();
+        this.changeAnimation();
       } ,3000);
     }
 
@@ -61,7 +63,7 @@ class Game1 extends Component {
       // console.log(poses[0]);
       // console.log(poses[1]);
       const weightedDistance = poseSimilarity(poses[0], poses[1]);
-      // console.log("similarity value is : " + weightedDistance);
+      console.log("similarity value is : " + weightedDistance);
       this.similarityPerImg.push(weightedDistance);
     }
 
@@ -70,26 +72,30 @@ class Game1 extends Component {
     }
 
     timeOut = () => {  
-      var currentScore = this.getScore(); //점수 계산
+      var currentScore = this.getScore(); //점수
       this.score.push(currentScore);
-      if(currentScore<0.3){
+      if(currentScore<0.1){
         console.log("excellent");
-      }else if(currentScore<0.6){
+        this.setState({scoreMent : "excellent"})
+      }else if(currentScore<0.2){
         console.log("good");
+        this.setState({scoreMent : "good"})
       }else{
         console.log("bad");
+        this.setState({scoreMent : "bad"})
       }
       this.similarityPerImg = []; //초기화
 
       if(this.state.currentImgNum<8){
-        this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
-        this.setState({currentImgNum : this.state.currentImgNum+1})
-        // this.activeTimer(); //타이머 시작
+        setTimeout(()=> {
+          this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
+          this.setState({currentImgNum : this.state.currentImgNum+1})
+          // this.activeTimer(); //타이머 시작
+        }, 300);
       }else{
         clearInterval(this.clockCall);
         console.log(this.score);
       }
-
     }
 
     changeAnswerPose = () => {
@@ -101,6 +107,18 @@ class Game1 extends Component {
       })
     }
 
+    changeAnimation = () => {
+      if(this.state.animationClass ===""){
+        this.setState({animationClass: "popAnimation"})
+      }else{
+        this.setState({animationClass : ""})
+      }
+    }
+
+    animationEnd = () => {
+      this.changeAnimation();
+    }
+
     render() {
         return (
             <div className = "SpeedGame">
@@ -108,6 +126,7 @@ class Game1 extends Component {
                         <div>HOME</div>
                         <div>HOME</div>
                     </div>
+                <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
                 <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/>
                 <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
