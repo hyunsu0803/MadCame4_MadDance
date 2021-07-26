@@ -57,6 +57,10 @@ class Game1 extends Component {
       } ,3000);
     }
 
+    componentDidUnMount() {
+      clearInterval(this.clockCall);
+    }
+
     getSimilarity = (detectedpose) => {
       let poses = [detectedpose, this.state.answerPose]
       // Calculate the weighted distance between the two poses
@@ -122,14 +126,16 @@ class Game1 extends Component {
     render() {
         return (
             <div className = "SpeedGame">
-                <div class="button_base b05_3d_roll">
-                        <div>HOME</div>
-                        <div>HOME</div>
-                    </div>
+                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                  <div class="button_base b05_3d_roll">
+                    <div>HOME</div>
+                    <div>HOME</div>
+                  </div>
+                </Link>
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
                 <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/>
-                <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
+                <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
             </div>
         )
     }

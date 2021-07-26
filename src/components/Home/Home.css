@@ -1,0 +1,10 @@
+.Home{
+    height : 100%;
+    padding : 2em;
+}
+
+.welcome_ment{
+    font-family : 'DungGeunMo';
+    font-size : 50px;
+    color : white;
+}

@@ -57,15 +57,15 @@
     color: black;
 }
 
-.ranking{
+.brd_ranking{
     text-align: center;
     width: 50px;
 }
-.playerName{
+.brd_playerName{
     text-align: center;
     width: 300px;
 }
-.score{
+.brd_score{
     text-align: center;
     width: 50px;
 }
