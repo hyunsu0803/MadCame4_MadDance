@@ -61,8 +61,9 @@ class PoseNet extends Component {
                 this.setState({loading: false})
             }, 200)
             
-            this.detectPose();
             this.props.videoStart();
+            this.detectPose();
+            
         }
     }
 
@@ -182,7 +183,6 @@ class PoseNet extends Component {
             }
         })
             if(this.videoActive){
-                console.log("video detecting...")
                 requestAnimationFrame(findPoseDetectionFrame)
             }
         }
@@ -195,7 +195,7 @@ class PoseNet extends Component {
             <div>
                 <video id="video" autoPlay="autoplay" width="700" height="700"
                  playsInline ref={this.getVideo} style={{display: "none"}}>
-                    <source src="/video/poop.mp4" type="video/mp4"></source>
+                    <source src="/video/poop_2.mp4" type="video/mp4"></source>
                 </video>
                 <canvas className="webcam" ref={this.getCanvas} />
             </div>
