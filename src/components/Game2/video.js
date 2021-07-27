@@ -195,7 +195,7 @@ class PoseNet extends Component {
             <div>
                 <video id="video" autoPlay="autoplay" width="700" height="700"
                  playsInline ref={this.getVideo} style={{display: "none"}}>
-                    <source src="/video/poop.mp4" type="video/mp4"></source>
+                    <source src="/video/poop_1.mp4" type="video/mp4"></source>
                 </video>
                 <canvas className="webcam" ref={this.getCanvas} />
             </div>
