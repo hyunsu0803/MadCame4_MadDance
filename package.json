@@ -14,15 +14,19 @@
     "cores": "^0.8.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "history": "^4.10.1",
     "http-proxy-middleware": "^2.0.1",
     "mysql": "^2.18.1",
     "posenet-similarity": "^0.4.8",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-modal": "^3.14.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.2",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "write-file-atomic": "^3.0.3",
+    "write-json-file": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",

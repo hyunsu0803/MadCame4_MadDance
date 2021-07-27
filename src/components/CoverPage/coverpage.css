@@ -42,10 +42,6 @@
 .maddance_logo{ 
     width :700px;
     height : 700px;
-    /* animation-name: rotating_logo;
-    animation-duration: 3s;
-    animation-iteration-count: infinite;
-    animation-timing-function : ease-in; */
 }
 
 @keyframes rotating_logo {

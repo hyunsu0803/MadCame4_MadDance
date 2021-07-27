@@ -23,9 +23,20 @@
     -webkit-animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
     animation: carousel 10s infinite cubic-bezier(1, 0.015, 0.295, 1.225) forwards;
   }
+
+  .carousel-thumbnail{
+    height : 100%;
+    display : block;
+    margin : 0px auto;
+  }
+  .carousel-thumbnail-wraper{
+    text-align: center;
+    height : 100%;
+  }
   
   .carousel-item {
     position: absolute;
+    overflow : hidden;
     top: 0;
     left: 0;
     width: 500px;
@@ -34,15 +45,15 @@
   }
   
   .carousel-item:nth-child(1) {
-    box-shadow: 0 0 7px rgba(252, 192, 77), 0 0 10px rgba(252, 192, 77), 0 0 14px rgba(252, 192, 77), 0 0 30px rgba(252, 192, 77), 0 0 50px rgba(190, 169, 130);
-    background: rgba(236, 233, 242, 0.9);
+    box-shadow: 0 0 7px rgba(236, 233, 242, 0.9), 0 0 10px rgba(236, 233, 242, 0.9), 0 0 14px rgba(252, 192, 77), 0 0 30px rgba(252, 192, 77), 0 0 50px rgba(190, 169, 130);
+    background: rgba(252, 192, 77, 0.8);
     /* background: rgba(252, 192, 77, 0.9); */
     -webkit-transform: rotateY(0) translateZ(300px);
     transform: rotateY(0) translateZ(300px);
   }
   
   .carousel-item:nth-child(2) {
-    background: rgba(236, 233, 242, 0.9);
+    background: rgba(49, 192, 204, 0.8);
     box-shadow: 0 0 7px rgba(49, 192, 204), 0 0 10px rgba(49, 192, 204), 0 0 14px rgba(49, 192, 204), 0 0 30px rgba(49, 192, 204), 0 0 50px rgba(49, 192, 204);
     /* background: rgba(49, 192, 204, 0.9); */
     -webkit-transform: rotateY(120deg) translateZ(300px);
@@ -51,7 +62,7 @@
   
   .carousel-item:nth-child(3) {
     box-shadow: 0 0 7px rgb(235, 115, 195), 0 0 10px rgb(235, 115, 195), 0 0 14px rgb(235, 115, 195), 0 0 30px rgb(235, 115, 195), 0 0 50px rgb(235, 115, 195);
-    background: rgba(236, 233, 242, 0.9);
+    background: rgb(235, 115, 195, 0.8);
     -webkit-transform: rotateY(240deg) translateZ(300px);
     transform: rotateY(240deg) translateZ(300px);
   }
