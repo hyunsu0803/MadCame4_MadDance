@@ -6,6 +6,7 @@ import './Game2.css'
 import Timer from './timer.js'
 import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
+import fs from 'fs';
 
 // async function estimatePoseOnImage(imageElement) {
 //   const net = await posenet.load({
@@ -51,6 +52,10 @@ class Game2 extends Component {
     cameraStart = () => {
         console.log("cameraStart");
         alert("cameraStart");
+
+        setTimeout(()=>{
+            console.log("camera start after 4000ms...");
+        }, 4000);
     }
 
     videoStart = () => {
@@ -58,17 +63,19 @@ class Game2 extends Component {
         alert("videoStart");
     }
 
-    gameStart = () => {
-        console.log("gameStart");
 
-        alert("gameStart");
 
-        // this.clockCall = setInterval(() => {
-        //     // this.timeOut();
-        //     // this.changeAnimation();
-        //     // console.log("clock time out");
-        // } ,3000);
-    }
+    // gameStart = () => {
+    //     console.log("gameStart");
+
+    //     alert("gameStart");
+
+    //     // this.clockCall = setInterval(() => {
+    //     //     // this.timeOut();
+    //     //     // this.changeAnimation();
+    //     //     // console.log("clock time out");
+    //     // } ,3000);
+    // }
 
     getVideoPose = (videopose) => {
         console.log("videopose : ", videopose);

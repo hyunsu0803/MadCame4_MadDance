@@ -22,7 +22,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-transition-group": "^4.4.2",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "write-file-atomic": "^3.0.3",
+    "write-json-file": "^4.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
