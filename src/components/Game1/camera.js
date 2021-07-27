@@ -25,8 +25,9 @@ class PoseNet extends Component {
 
   constructor(props) {
     super(props, PoseNet.defaultProps);
-    this.state = {cameraActive : true};
   }
+
+  cameraActive = true;
 
   getCanvas = elem => {
     this.canvas = elem
@@ -64,7 +65,7 @@ class PoseNet extends Component {
   }
 
   componentWillUnmount() {
-    this.setState({cameraActive : false})
+    this.cameraActive = false
   }
 
   async setupCamera() {
@@ -200,12 +201,12 @@ class PoseNet extends Component {
           }
         }
       })
-      requestAnimationFrame(findPoseDetectionFrame)
+      if(this.cameraActive){
+        console.log("detecting...")
+        requestAnimationFrame(findPoseDetectionFrame)
+      }
     }
-    if(this.state.cameraActive){
-      console.log("detecting...");
       findPoseDetectionFrame();
-    }
   }
 
   render() {

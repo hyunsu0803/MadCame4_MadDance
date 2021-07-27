@@ -16,7 +16,7 @@ class Login extends Component {
         return(
             <div className = "login_form">
                 <input className= "nickname_box" type="text" placeholder="Nickname" ref={node => this.nickname = node}></input>
-                <div className = "submit_button" onClick = {this.onClickListener}><Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>Log in</Link></div>
+                <div className = "submit_button" onClick = {this.onClickListener.bind(this)}><Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>Log in</Link></div>
             </div>
         );
     }

@@ -34,6 +34,7 @@ class Game1 extends Component {
     
     similarityPerImg = [];
     score = [];
+    clockCall = undefined;
 
     async componentDidMount() {
         console.log("componentDidMount");
@@ -57,7 +58,7 @@ class Game1 extends Component {
       } ,3000);
     }
 
-    componentDidUnMount() {
+    componentWillUnmount() {
       clearInterval(this.clockCall);
     }
 
