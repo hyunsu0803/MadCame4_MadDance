@@ -59,8 +59,9 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.props.gameStart();
+      
       this.detectPose();
+      this.props.cameraStart();
     }
   }
 
@@ -166,6 +167,7 @@ class PoseNet extends Component {
           );
           poses.push(pose);
           // this.props.getSimilarity(pose);
+          this.props.getCameraPose(pose);
           break
         }
       }
@@ -202,7 +204,7 @@ class PoseNet extends Component {
         }
       })
       if(this.cameraActive){
-        console.log("detecting...")
+        console.log("camera detecting...")
         requestAnimationFrame(findPoseDetectionFrame)
       }
     }

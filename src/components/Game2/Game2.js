@@ -48,6 +48,16 @@ class Game2 extends Component {
         // this.changeAnswerPose();
     }
 
+    cameraStart = () => {
+        console.log("cameraStart");
+        alert("cameraStart");
+    }
+
+    videoStart = () => {
+        console.log("videoStart");
+        alert("videoStart");
+    }
+
     gameStart = () => {
         console.log("gameStart");
 
@@ -60,8 +70,8 @@ class Game2 extends Component {
         // } ,3000);
     }
 
-    getAnswerPose = (answerpose) => {
-        console.log("answerpose : ", answerpose);
+    getVideoPose = (videopose) => {
+        console.log("videopose : ", videopose);
     }
 
     getCameraPose = (camerapose) => {
@@ -145,11 +155,11 @@ class Game2 extends Component {
                 onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div> */}
 
                 {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
-                <Camera getCameraPose = {this.getCameraPose} gameStart = {this.gameStart}/>
+                <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart}/>
                 {/* <video id="video" poster="/img/vs_img.png" width="700" height="700" controls="controls" autoPlay="autoplay" loop="loop" muted="muted">
                     <source src="/video/poop.mp4" type="video/mp4"></source>
                 </video> */}
-                <Video getAnswerPose = {this.getAnswerPose} gameStart = {this.gameStart} />
+                <Video getVideoPose = {this.getVideoPose} videoStart = {this.videoStart} />
                 {/* <img src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img> */}
             </div>
         )
