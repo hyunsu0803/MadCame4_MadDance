@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
             console.log(error);
         }else{
             console.log(results);
-            for(i=0; i<results.length; i++){
+            for(i=0; i<10; i++){
                 scoreRecord.push({
                     rank : results[i].rank,
                     name : results[i].UserName,
