@@ -1,0 +1,92 @@
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+.CoverPage{
+    height : 100%;
+    display : flex;
+    align-items : center;
+}
+.coverpage_content{
+    margin : 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.coverpage_textwraper{
+    width :700px;
+    font-family : 'DungGeunMo';
+    display : inline-block;
+}
+
+.coverpage_maintitle{
+    color : white;
+    display : inline-block;
+    vertical-align : middle;
+}
+
+.text_mad{
+    font-size : 250px;
+    margin-bottom : -50px;
+}
+.text_dance{
+    font-size : 150px;
+}
+
+.coverpage_logowraper{
+    display : inline-block;
+}
+.maddance_logo{ 
+    width :700px;
+    height : 700px;
+    /* animation-name: rotating_logo;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function : ease-in; */
+}
+
+@keyframes rotating_logo {
+    0%   {transform: rotate3d(0, 0, 0, 0deg)}
+    50%  {transform:rotate3d(0, 1, 0, 180deg)}
+    100% {transform:rotate3d(0, 1, 0, 360deg)}
+  }
+
+.coverpage_subtitle{
+    color : white;
+    font-size : 50px;
+}
+
+.nickname_box{
+    display : inline-block;
+    width : 300px;
+    height : 34px;
+    font-size : 20px;
+    margin-right : 10px;
+    font-family :'DungGeunMo';
+    padding : 0px 10px 0px 10px
+}
+
+.submit_button{
+    display : inline-block;
+    width : 60px;
+    height : 40px;
+    line-height : 40px;
+    font-size : 15px;
+    font-family :'DungGeunMo';
+    background-color : rgb(221, 221, 221);
+    color : white;
+    text-align : center;
+}
+
+a{
+    text-decoration : none;
+    color : black;
+}
+
+.login_form{
+    margin-top : 50px;
+}
+

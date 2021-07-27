@@ -24,8 +24,10 @@ class PoseNet extends Component {
   }
 
   constructor(props) {
-    super(props, PoseNet.defaultProps)
+    super(props, PoseNet.defaultProps);
   }
+
+  cameraActive = true;
 
   getCanvas = elem => {
     this.canvas = elem
@@ -60,6 +62,10 @@ class PoseNet extends Component {
       this.props.gameStart();
       this.detectPose();
     }
+  }
+
+  componentWillUnmount() {
+    this.cameraActive = false
   }
 
   async setupCamera() {
@@ -195,9 +201,12 @@ class PoseNet extends Component {
           }
         }
       })
-      requestAnimationFrame(findPoseDetectionFrame)
+      if(this.cameraActive){
+        console.log("detecting...")
+        requestAnimationFrame(findPoseDetectionFrame)
+      }
     }
-    findPoseDetectionFrame()
+      findPoseDetectionFrame();
   }
 
   render() {
