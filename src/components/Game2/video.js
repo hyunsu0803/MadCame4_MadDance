@@ -44,23 +44,23 @@ class PoseNet extends Component {
               'This browser does not support video capture, or this device does not have a camera'
             )
         }
-        this.detectPose();
-        // try {
-        //     this.posenet = await posenet.load({
-        //         architecture: 'MobileNetV1',
-        //         outputStride: 16,
-        //         inputResolution: { width: 640, height: 480 },
-        //         multiplier: 0.75
-        //     })
-        // } catch (error) {
-        // throw new Error('PoseNet failed to load')
-        // } finally {
-        //     setTimeout(() => {
-        //         this.setState({loading: false})
-        //     }, 200)
-        //     this.props.gameStart();
-        //     this.detectPose();
-        // }
+        // this.detectPose();
+        try {
+            this.posenet = await posenet.load({
+                architecture: 'MobileNetV1',
+                outputStride: 16,
+                inputResolution: { width: 640, height: 480 },
+                multiplier: 0.75
+            })
+        } catch (error) {
+        throw new Error('PoseNet failed to load')
+        } finally {
+            setTimeout(() => {
+                this.setState({loading: false})
+            }, 200)
+            this.props.gameStart();
+            this.detectPose();
+        }
     }
 
     async setupVideo() {
@@ -70,11 +70,11 @@ class PoseNet extends Component {
         video.height = videoHeight
 
         return new Promise(resolve => {
-        video.onloadedmetadata = () => {
-            console.log("metadata loaded");
-            video.play()
-            resolve(video)
-        }
+            video.onloadedmetadata = () => {
+                console.log("metadata loaded");
+                video.play()
+                resolve(video)
+            }
         })
     }
 
@@ -109,38 +109,38 @@ class PoseNet extends Component {
         skeletonLineWidth 
         } = this.props
 
-        // const posenetModel = this.posenet
+        const posenetModel = this.posenet
         const video = this.video
 
         const findPoseDetectionFrame = async () => {
         let poses = []
 
-        // switch (algorithm) {
-        //     case 'multi-pose': {
-        //     poses = await posenetModel.estimateMultiplePoses(
-        //     video, 
-        //     imageScaleFactor, 
-        //     flipHorizontal, 
-        //     outputStride, 
-        //     maxPoseDetections, 
-        //     minPartConfidence, 
-        //     nmsRadius
-        //     )
-        //     break
-        //     }
-        //     case 'single-pose': {
-        //     const pose = await posenetModel.estimateSinglePose(
-        //     video, 
-        //     {imageScaleFactor:0.5, 
-        //     flipHorizontal:true, 
-        //     outputStride:16}
-        //     );
-        //     poses.push(pose);
-        //     // this.props.getSimilarity(pose);
-        //     this.props.getAnswerPose(pose);
-        //     break
-        //     }
-        // }
+        switch (algorithm) {
+            case 'multi-pose': {
+                poses = await posenetModel.estimateMultiplePoses(
+                    video, 
+                    imageScaleFactor, 
+                    flipHorizontal, 
+                    outputStride, 
+                    maxPoseDetections, 
+                    minPartConfidence, 
+                    nmsRadius
+                )
+                break
+            }
+            case 'single-pose': {
+                const pose = await posenetModel.estimateSinglePose(
+                    video, 
+                    {imageScaleFactor:0.5, 
+                    flipHorizontal:true, 
+                    outputStride:16}
+                );
+                poses.push(pose);
+                // this.props.getSimilarity(pose);
+                this.props.getAnswerPose(pose);
+                break
+            }
+        }
 
         canvasContext.clearRect(0, 0, videoWidth, videoHeight)
 
@@ -153,27 +153,27 @@ class PoseNet extends Component {
             canvasContext.restore()
         }
 
-        // poses.forEach(({score, keypoints}) => {
-        //     if (score >= minPoseConfidence) {
-        //     if (showPoints) {
-        //         drawKeyPoints(
-        //         keypoints,
-        //         minPartConfidence,
-        //         skeletonColor,
-        //         canvasContext
-        //         )
-        //     }
-        //     if (showSkeleton) {
-        //         drawSkeleton(
-        //         keypoints,
-        //         minPartConfidence,
-        //         skeletonColor,
-        //         skeletonLineWidth,
-        //         canvasContext
-        //         )
-        //     }
-        //     }
-        // })
+        poses.forEach(({score, keypoints}) => {
+            if (score >= minPoseConfidence) {
+                if (showPoints) {
+                    drawKeyPoints(
+                    keypoints,
+                    minPartConfidence,
+                    skeletonColor,
+                    canvasContext
+                    )
+                }
+                if (showSkeleton) {
+                    drawSkeleton(
+                    keypoints,
+                    minPartConfidence,
+                    skeletonColor,
+                    skeletonLineWidth,
+                    canvasContext
+                    )
+                }
+            }
+        })
         requestAnimationFrame(findPoseDetectionFrame)
         }
         findPoseDetectionFrame()

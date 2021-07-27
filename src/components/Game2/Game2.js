@@ -49,14 +49,14 @@ class Game2 extends Component {
     }
 
     gameStart = () => {
-      console.log("gameStart");
+        console.log("gameStart");
 
-      alert("gameStart");
-      this.clockCall = setInterval(() => {
-        // this.timeOut();
-        // this.changeAnimation();
-        console.log("clock time out");
-      } ,3000);
+        alert("gameStart");
+        this.clockCall = setInterval(() => {
+            // this.timeOut();
+            // this.changeAnimation();
+            // console.log("clock time out");
+        } ,3000);
     }
 
     getAnswerPose = (answerpose) => {
