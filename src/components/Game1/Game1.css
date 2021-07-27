@@ -37,7 +37,7 @@
     100% { top : 0px; opacity : 1.0}
   }
 
-canvas{
+.webcam{
     box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 14px #fff, 0 0 30px #0fa, 0 0 50px #0fa;
     margin : 0 40px 0 40px;
 }

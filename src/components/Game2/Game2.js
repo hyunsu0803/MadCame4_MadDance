@@ -52,6 +52,7 @@ class Game2 extends Component {
         console.log("gameStart");
 
         alert("gameStart");
+
         // this.clockCall = setInterval(() => {
         //     // this.timeOut();
         //     // this.changeAnimation();
@@ -133,7 +134,7 @@ class Game2 extends Component {
         console.log("game2 render");
         return (
             <div className = "SpeedGame">
-                <Link to={{pathname : "/", state:{nickname : this.props.location.state.nickname}}}>
+                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
                     <div class="button_base b05_3d_roll">
                             <div>HOME</div>
                             <div>HOME</div>
