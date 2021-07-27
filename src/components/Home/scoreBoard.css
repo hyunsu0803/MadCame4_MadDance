@@ -38,7 +38,7 @@
 }
 
 .board-item:nth-child(3) {
-    background-color: rgba(236, 233, 242, 1);
+    background-color: rgb(235, 115, 195);
     transform: rotateY(240deg) translateZ(200px)
 }
 

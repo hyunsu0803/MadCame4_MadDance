@@ -35,50 +35,55 @@ class Home extends Component {
     render() {
         let gameCard = 
         <div>
-            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 1</Link>
+            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">
+                <div className = "carousel-thumbnail-wraper">
+                    <img className = "carousel-thumbnail"src = "/img/game2_thumbnail.png"></img>
+                </div>
+                <link rel="prefetch" href="/images/madDance_background2.png"></link>
+            </Link>
             <Link to={{pathname : "/game2", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 2</Link>
             <Link to={{pathname : "/game3", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 3</Link>
         </div>
 
         return(
             <div className = "Home" style ={{backgroundImage : "url(/img/madDance_background1.jpg)", backgroundSize : "100% 100%"}}>
-                <div>
-                    <div className = "welcome_ment">Wellcome {this.state.nickname} :D</div>
-                </div>
-                <div>
-                    <div className="carousel">
-                        <div className="carousel-content">
-                            {gameCard}                            
-                        </div>
+                <div className = "Home_content_wraper">
+                    <div>
+                        <div className = "welcome_ment">Wellcome {this.state.nickname} :D</div>
                     </div>
-
-                    <div className="board">
-                        <div className="board-content">
-                            <div className="board-item">
-                                <div className="ScoreBoard">
-                                    GAME 1 Score Board <br/>
-                                    -----------------------------
-                                </div>
-                                {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
-                            </div>
-                            <div className="board-item">
-                                <div className="ScoreBoard">
-                                    GAME 2 Score Board <br/>
-                                    -----------------------------
-                                </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
-                            </div>
-                            <div className="board-item">
-                                <div className="ScoreBoard">
-                                    GAME 3 Score Board <br/>
-                                    -----------------------------
-                                </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                    <div>
+                        <div className="carousel">
+                            <div className="carousel-content">
+                                {gameCard}                            
                             </div>
                         </div>
-                    </div>
 
-                    
+                        <div className="board">
+                            <div className="board-content">
+                                <div className="board-item">
+                                    <div className="ScoreBoard">
+                                        GAME 1 Score Board <br/>
+                                        -----------------------------
+                                    </div>
+                                    {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
+                                </div>
+                                <div className="board-item">
+                                    <div className="ScoreBoard">
+                                        GAME 2 Score Board <br/>
+                                        -----------------------------
+                                    </div>
+                                    {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                                </div>
+                                <div className="board-item">
+                                    <div className="ScoreBoard">
+                                        GAME 3 Score Board <br/>
+                                        -----------------------------
+                                    </div>
+                                    {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                                </div>
+                            </div>
+                        </div>                    
+                    </div>
                 </div>
             </div>
         );

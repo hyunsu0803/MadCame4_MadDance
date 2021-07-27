@@ -108,7 +108,6 @@ class PoseNet extends Component {
   }
 
   detectPose() {
-    console.log("detectPose");
     const {videoWidth, videoHeight} = this.props
     const canvas = this.canvas
     const canvasContext = canvas.getContext('2d')
@@ -143,21 +142,6 @@ class PoseNet extends Component {
 
     const findPoseDetectionFrame = async () => {
       let poses = []
-
-      switch (algorithm) {
-        case 'multi-pose': {
-          poses = await posenetModel.estimateMultiplePoses(
-          video, 
-          imageScaleFactor, 
-          flipHorizontal, 
-          outputStride, 
-          maxPoseDetections, 
-          minPartConfidence, 
-          nmsRadius
-          )
-          break
-        }
-        case 'single-pose': {
           const pose = await posenetModel.estimateSinglePose(
           video, 
           {imageScaleFactor:0.5, 
@@ -166,9 +150,6 @@ class PoseNet extends Component {
           );
           poses.push(pose);
           this.props.getSimilarity(pose);
-          break
-        }
-      }
 
       canvasContext.clearRect(0, 0, videoWidth, videoHeight)
 
@@ -202,7 +183,6 @@ class PoseNet extends Component {
         }
       })
       if(this.cameraActive){
-        console.log("detecting...")
         requestAnimationFrame(findPoseDetectionFrame)
       }
     }
@@ -211,7 +191,7 @@ class PoseNet extends Component {
 
   render() {
     return (
-      <div className = "camera_box">
+      <div className = "camera_box" style = {this.props.style}>
         <div>
           <video id="videoNoShow" playsInline ref={this.getVideo} style={{display: "none"}}></video>
           <canvas className="webcam" ref={this.getCanvas} />

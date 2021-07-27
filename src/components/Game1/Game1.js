@@ -1,146 +1,190 @@
 import React, {Component} from 'react'
 import { Link } from "react-router-dom";
+import { poseSimilarity } from 'posenet-similarity';
+import * as posenet from '@tensorflow-models/posenet';
+import Modal from 'react-modal';
+
 import Camera from './camera.js'
 import Timer from './timer.js'
 import './Game1.css'
-import { poseSimilarity } from 'posenet-similarity';
-import * as posenet from '@tensorflow-models/posenet';
-
-async function estimatePoseOnImage(imageElement) {
-  const net = await posenet.load({
-    architecture: 'MobileNetV1',
-    outputStride: 16,
-    inputResolution: { width: 640, height: 480 },
-    multiplier: 0.75
-  });
-  // Estimate the pose on the imageElement
-  const pose = await net.estimateSinglePose(imageElement);
-  return pose;
-}
 
 class Game1 extends Component {
 
-  constructor(props){
-    super(props, Game1.defaultProps);
-    this.state = {
-        currentImgNum : 0,
-        isTimerActive : true,
-        answerPose : {},
-        imgList : [],
-        scoreMent : "",
-        animationClass : ""
+    constructor(props){
+        super(props, Game1.defaultProps);
+        this.state = {
+            isModalOpen : false,
+            currentImgNum : 0,
+            isTimerActive : true,
+            answerPose : {},
+            imgList : [],
+            scoreMent : " ",
+            animationClass : "",
+            showCamera : true,
+            showImg : true
+        }
     }
-  }
-  
-  similarityPerImg = [];
-  score = [];
-  clockCall = undefined;
+    
+    totalScore = 0;
+    similarityPerImg = [];
+    score = [];
+    clockCall = undefined
 
-  async componentDidMount() {
-    console.log("componentDidMount");
-    //import image
-    var i;
-    var tempList = []
-    for (i=0; i<10 ;i++){
-        tempList.push("/img/posenet_img"+i+".png");
-    } 
-    this.setState({imgList : tempList});
-    this.changeAnswerPose();
-  }
-
-  gameStart = () => {
-    console.log("gameStart");
-
-    alert("gameStart");
-    this.clockCall = setInterval(() => {
-      this.timeOut();
-      this.changeAnimation();
-    } ,3000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.clockCall);
-  }
-
-  getSimilarity = (detectedpose) => {
-    let poses = [detectedpose, this.state.answerPose]
-    // Calculate the weighted distance between the two poses
-    // console.log(poses[0]);
-    // console.log(poses[1]);
-    const weightedDistance = poseSimilarity(poses[0], poses[1]);
-    console.log("similarity value is : " + weightedDistance);
-    this.similarityPerImg.push(weightedDistance);
-  }
-
-  getScore = () => {
-    return Math.min(...this.similarityPerImg);
-  }
-
-  timeOut = () => {  
-    var currentScore = this.getScore(); //점수
-    this.score.push(currentScore);
-    if(currentScore<0.1){
-      console.log("excellent");
-      this.setState({scoreMent : "excellent"})
-    }else if(currentScore<0.2){
-      console.log("good");
-      this.setState({scoreMent : "good"})
-    }else{
-      console.log("bad");
-      this.setState({scoreMent : "bad"})
+    async componentDidMount() {
+        //import image
+        var i;
+        var tempList = []
+        for (i=0; i<10 ;i++){
+            tempList.push("/img/posenet_img"+i+".png");
+        } 
+        this.setState({imgList : tempList});
+        this.loadPoseNet().then(() => {this.changeAnswerPose()});
     }
-    this.similarityPerImg = []; //초기화
 
-    if(this.state.currentImgNum<8){
-      setTimeout(()=> {
-        this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
-        this.setState({currentImgNum : this.state.currentImgNum+1})
-        // this.activeTimer(); //타이머 시작
-      }, 300);
-    }else{
+    async loadPoseNet() {
+      this.net = await posenet.load({
+        architecture: 'MobileNetV1',
+        outputStride: 16,
+        inputResolution: { width: 640, height: 480 },
+        multiplier: 0.75
+      });
+      
+    }
+
+    async estimatePoseOnImage(imageElement){
+      // Estimate the pose on the imageElement
+      const pose = await this.net.estimateSinglePose(imageElement);
+      return pose;
+    }
+    gameStart = () => {
+      alert("gameStart");
+      this.clockCall = setInterval(() => {
+        this.timeOut();
+        this.changeAnimation();
+      } ,3000);
+    }
+
+    gameEnd = () => {
       clearInterval(this.clockCall);
-      console.log(this.score);
+      setTimeout(this.removeElements(), 2000);
+      this.openModal();
     }
-  }
 
-  changeAnswerPose = () => {
-    console.log("current num "+this.state.currentImgNum);
-    const answerImg = this.answerImg;
-    estimatePoseOnImage(answerImg).then((answerPose) => {
-      this.setState({answerPose :answerPose});
-      console.log(answerPose);
-    })
-  }
-
-  changeAnimation = () => {
-    if(this.state.animationClass ===""){
-      this.setState({animationClass: "popAnimation"})
-    }else{
-      this.setState({animationClass : ""})
+    componentWillUnmount(){
+      clearInterval(this.clockCall);
     }
-  }
 
-  animationEnd = () => {
-    this.changeAnimation();
-  }
+    removeElements = ()=> {
+      this.setState({
+        showCamera : false,
+        showImg : false
+      })
+    }
 
-  render() {
-      return (
-          <div className = "SpeedGame">
-              <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
-                <div class="button_base b05_3d_roll">
-                  <div>HOME</div>
-                  <div>HOME</div>
+    getSimilarity = (detectedpose) => {
+      let poses = [detectedpose, this.state.answerPose]
+      // Calculate the weighted distance between the two poses
+      // console.log(poses[0]);
+      // console.log(poses[1]);
+      const weightedDistance = poseSimilarity(poses[0], poses[1]);
+      this.similarityPerImg.push(weightedDistance);
+    }
+
+    getScore = () => {
+      console.log(this.state.currentImgNum);
+      console.log(this.similarityPerImg.toString());
+      return Math.min(...this.similarityPerImg);
+    }
+
+    timeOut = () => {  
+      if(this.state.currentImgNum>0){
+        var currentScore = this.getScore(); //점수
+        this.score.push(currentScore);
+        if(currentScore<0.05){
+          this.setState({scoreMent : "excellent"});
+          this.totalScore+=10;
+        }else if(currentScore<0.01){
+          this.setState({scoreMent : "good"});
+          this.totalScore+=5;
+        }else{
+          this.setState({scoreMent : "bad"});
+          this.totalScore+=0;
+        }
+      }
+
+      console.log(this.score.toString());
+
+      if(this.state.currentImgNum<8){
+        this.changeImage();
+        this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
+      }else{
+        clearInterval(this.clockCall);
+        this.gameEnd();
+      }
+    }
+
+    changeImage = () => {
+      this.setState({currentImgNum : this.state.currentImgNum+1})
+      console.log("img changed");
+    }
+
+    changeAnswerPose = () => {
+      console.log("current num "+this.state.currentImgNum);
+      const answerImg = this.answerImg;
+      this.estimatePoseOnImage(answerImg).then((answerPose) => {
+        this.similarityPerImg = []; //초기화
+        this.setState({answerPose :answerPose});
+        console.log(answerPose);
+      })
+    }
+
+    changeAnimation = () => {
+      if(this.state.animationClass ===""){
+        this.setState({animationClass: "popAnimation"})
+      }else{
+        this.setState({animationClass : ""})
+      }
+    }
+
+    animationEnd = () => {
+      this.changeAnimation();
+    }
+
+    openModal = () => {
+      this.setState({isModalOpen : true});
+    }
+
+    render() {
+        return (
+            <div className = "SpeedGame" style ={{
+              backgroundImage : "url(/img/madDance_background2.jpg)", 
+              backgroundSize : "100% 100%"
+              }}>
+                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                  <div class="button_base b05_3d_roll home_button">
+                    <div>HOME</div>
+                    <div>HOME</div>
+                  </div>
+                </Link>
+                <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
+                {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
+                {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/> : null}
+                {this.state.showImg ? <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img> : null}
+                <div className = "modal_wraper">
+                  <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
+                    <div className = "score_info">Your Total Score is</div>
+                    <div className = "score_total">{this.totalScore}</div>
+                    <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                      <div class="button_base b05_3d_roll">
+                        <div>HOME</div>
+                        <div>HOME</div>
+                      </div>
+                    </Link>
+                  </Modal>
                 </div>
-              </Link>
-
-              <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-              {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
-              <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/>
-              <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img>
-          </div>
-      )
-  }
+            </div>
+        )
+    }
 }
 
 export default Game1

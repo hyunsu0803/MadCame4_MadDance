@@ -1,3 +1,8 @@
+.SpeedGame{
+    height : 100%;
+    width : 100%;
+}
+
 .camera_box{
     display : inline-block
 }
@@ -13,11 +18,11 @@
     width : 200px;
     text-align : center;
     margin : 0px auto;
-    margin-bottom : 70px;
     font-size : 60px;
     text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
       0 0 50px #0fa, 0 0 60px #0fa;
     opacity : 0.0;
+    height : 150px;
 }
 
 .popAnimation{
@@ -37,7 +42,28 @@
     100% { top : 0px; opacity : 1.0}
   }
 
-.webcam{
+canvas{
     box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 14px #fff, 0 0 30px #0fa, 0 0 50px #0fa;
     margin : 0 40px 0 40px;
+}
+.ReactModal__Overlay{
+    background-color : rgba(0, 0, 0, 0);
+}
+.ReactModal__Content{
+    width: 500px;
+    height: 300px;
+    background: white;
+    font-family : 'DungGeunMo';
+    text-align : center;
+    padding : 50px;
+    box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 14px #fff, 0 0 30px #0fa;
+    margin: 150px auto;
+}
+
+.score_info{
+    font-size : 50px;
+    margin-bottom : 50px;
+}
+.score_total{
+    font-size : 100px;
 }
