@@ -10,10 +10,9 @@ import DynamicTimeWarping from 'dynamic-time-warping';
 import poop1_poses from './answerJson/poop_1.json';
 import poop2_poses from './answerJson/poop_2.json';
 import poop3_poses from './answerJson/poop_3.json';
-import poop4_poses from './answerJson/poop_4.json';
+// import poop4_poses from './answerJson/poop_4.json';
 import poop5_poses from './answerJson/poop_5.json';
-import poop6_poses from './answerJson/poop_6.json';
-import poop7_poses from './answerJson/poop_7.json';
+
 
 class Game2 extends Component {
 
@@ -44,13 +43,13 @@ class Game2 extends Component {
     
     poses_to_jsonfile = () => {
 
-        console.log("video ended");
+        // console.log("video ended");
 
         // console.log("$$$$ poop1_poses.length : ", poop1_poses.length);
         // console.log("$$$$ poo1_poses ", poop1_poses);
 
-        // console.log("@@@@ this.sampleVideoPoses.length : ", this.sampleVideoPoses.length);
-        // console.log("@@@@ this.sampleVideoPoses", this.sampleVideoPoses);
+        console.log("@@@@ this.sampleVideoPoses.length : ", this.sampleVideoPoses.length);
+        console.log("@@@@ this.sampleVideoPoses", this.sampleVideoPoses);
         
         // let f = 0, b = 0;
         // for (b = 0; b < 17; b++) {
@@ -105,14 +104,17 @@ class Game2 extends Component {
         alert("videoStart");
     }
 
-    // getVideoPose = (videopose) => {
-    //     console.log("videopose : ", videopose);
-    //     let framenum = this.frameNum;
-    //     // this.sampleVideoPoses.push({"number" : framenum, "frame" : videopose});
-    //     this.sampleVideoPoses.push(JSON.stringify(videopose));
+    getVideoPose = (videopose) => {
+        console.log("videopose : ", videopose);
+        let framenum = this.frameNum;
+        // this.sampleVideoPoses.push({"number" : framenum, "frame" : videopose});
+        this.sampleVideoPoses.push(JSON.stringify(videopose));
 
-    //     this.frameNum += 1;
-    // }
+        // this.frameNum += 1;
+    }
+
+
+    
 
     getCameraPose = (camerapose) => {
         // console.log("camerapose : ", camerapose);
@@ -128,9 +130,9 @@ class Game2 extends Component {
                             <div>HOME</div>
                     </div>
                 </Link>
-                <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart}/>
-                {/* <Video getVideoPose = {this.getVideoPose} videoStart = {this.videoStart} poses_to_jsonfile = {this.poses_to_jsonfile} /> */}
-                <Video videoStart = {this.videoStart} poses_to_jsonfile = {this.poses_to_jsonfile} />
+                {/* <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart}/> */}
+                <Video getVideoPose = {this.getVideoPose} videoStart = {this.videoStart} poses_to_jsonfile = {this.poses_to_jsonfile} />
+                {/* <Video videoStart = {this.videoStart} poses_to_jsonfile = {this.poses_to_jsonfile} /> */}
             </div>
         )
     }

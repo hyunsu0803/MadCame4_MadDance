@@ -57,9 +57,6 @@ class PoseNet extends Component {
         }
     }
 
-
-
-
     componentWillUnmount() {
         this.videoActive = false
     }
@@ -131,19 +128,19 @@ class PoseNet extends Component {
             //         break
             //     }
             //     case 'single-pose': {
-            //         const pose = await posenetModel.estimateSinglePose(
-            //             this.video, 
-            //             {imageScaleFactor:0.5, 
-            //             flipHorizontal:true, 
-            //             outputStride:16}
-            //         );
-            //         poses.push(pose);
-            //         // this.props.getSimilarity(pose);
-            //         this.props.getVideoPose(pose);
+                    const pose = await posenetModel.estimateSinglePose(
+                        this.video, 
+                        {imageScaleFactor:0.5, 
+                        flipHorizontal:true, 
+                        outputStride:16}
+                    );
+                    poses.push(pose);
+                    // this.props.getSimilarity(pose);
+                    this.props.getVideoPose(pose);
             //         break
             //     }
             // }
-
+    
             canvasContext.clearRect(0, 0, videoWidth, videoHeight)
 
             if (showVideo) {
@@ -155,27 +152,27 @@ class PoseNet extends Component {
                 canvasContext.restore()
             }
 
-            // poses.forEach(({score, keypoints}) => {
-            //     if (score >= minPoseConfidence) {
-            //         if (showPoints) {
-            //             drawKeyPoints(
-            //             keypoints,
-            //             minPartConfidence,
-            //             skeletonColor,
-            //             canvasContext
-            //             )
-            //         }
-            //         if (showSkeleton) {
-            //             drawSkeleton(
-            //             keypoints,
-            //             minPartConfidence,
-            //             skeletonColor,
-            //             skeletonLineWidth,
-            //             canvasContext
-            //             )
-            //         }
-            //     }
-            // })
+            poses.forEach(({score, keypoints}) => {
+                if (score >= minPoseConfidence) {
+                    if (showPoints) {
+                        drawKeyPoints(
+                        keypoints,
+                        minPartConfidence,
+                        skeletonColor,
+                        canvasContext
+                        )
+                    }
+                    if (showSkeleton) {
+                        drawSkeleton(
+                        keypoints,
+                        minPartConfidence,
+                        skeletonColor,
+                        skeletonLineWidth,
+                        canvasContext
+                        )
+                    }
+                }
+            })
 
             if(this.videoActive){
                 requestAnimationFrame(findPoseDetectionFrame)
@@ -193,7 +190,7 @@ class PoseNet extends Component {
                  onEnded={()=>{
                      this.props.poses_to_jsonfile(); 
                  }}>
-                    <source src="/video/poop.mp4" type="video/mp4"></source>
+                    <source src="/video/poop_4.mp4" type="video/mp4"></source>
                 </video>
                 <canvas className="webcam" ref={(ref) => {this.canvas=ref}} />
             </div>
