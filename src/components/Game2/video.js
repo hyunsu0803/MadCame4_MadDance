@@ -23,40 +23,42 @@ class PoseNet extends Component {
         loadingText: 'Loading...please be patient...'
     }
 
+
     constructor(props) {
         super(props, PoseNet.defaultProps)
     }
 
     videoActive = true;
     async componentDidMount() {
-
         try {
             await this.setupVideo()
             } catch (error) {
             throw new Error(
               'This browser does not support video capture, or this device does not have a camera'
             )
-        }
-        // this.detectPose();
-        try {
-            this.posenet = await posenet.load({
-                architecture: 'MobileNetV1',
-                outputStride: 16,
-                inputResolution: { width: 640, height: 480 },
-                multiplier: 0.75
-            })
-        } catch (error) {
-        throw new Error('PoseNet failed to load')
-        } finally {
-            setTimeout(() => {
-                this.setState({loading: false})
-            }, 200)
-            
-            this.props.videoStart();
-            this.detectPose();
-            
+        }finally{
+            try {
+                this.posenet = await posenet.load({
+                    architecture: 'MobileNetV1',
+                    outputStride: 16,
+                    inputResolution: { width: 640, height: 480 },
+                    multiplier: 0.75
+                })
+            } catch (error) {
+            throw new Error('PoseNet failed to load')
+            } finally {
+                setTimeout(() => {
+                    this.setState({loading: false})
+                }, 200)
+                
+                this.props.videoStart();
+                this.detectPose();
+            }
         }
     }
+
+
+
 
     componentWillUnmount() {
         this.videoActive = false
@@ -111,68 +113,70 @@ class PoseNet extends Component {
         const posenetModel = this.posenet
         const video = this.video
 
+
         const findPoseDetectionFrame = async () => {
-        let poses = []
+            let poses = []
 
-        // switch (algorithm) {
-        //     case 'multi-pose': {
-        //         poses = await posenetModel.estimateMultiplePoses(
-        //             video, 
-        //             imageScaleFactor, 
-        //             flipHorizontal, 
-        //             outputStride, 
-        //             maxPoseDetections, 
-        //             minPartConfidence, 
-        //             nmsRadius
-        //         )
-        //         break
-        //     }
-        //     case 'single-pose': {
-        //         const pose = await posenetModel.estimateSinglePose(
-        //             video, 
-        //             {imageScaleFactor:0.5, 
-        //             flipHorizontal:true, 
-        //             outputStride:16}
-        //         );
-        //         poses.push(pose);
-        //         // this.props.getSimilarity(pose);
-        //         this.props.getVideoPose(pose);
-        //         break
-        //     }
-        // }
+            // switch (algorithm) {
+            //     case 'multi-pose': {
+            //         poses = await posenetModel.estimateMultiplePoses(
+            //             video, 
+            //             imageScaleFactor, 
+            //             flipHorizontal, 
+            //             outputStride, 
+            //             maxPoseDetections, 
+            //             minPartConfidence, 
+            //             nmsRadius
+            //         )
+            //         break
+            //     }
+            //     case 'single-pose': {
+            //         const pose = await posenetModel.estimateSinglePose(
+            //             this.video, 
+            //             {imageScaleFactor:0.5, 
+            //             flipHorizontal:true, 
+            //             outputStride:16}
+            //         );
+            //         poses.push(pose);
+            //         // this.props.getSimilarity(pose);
+            //         this.props.getVideoPose(pose);
+            //         break
+            //     }
+            // }
 
-        canvasContext.clearRect(0, 0, videoWidth, videoHeight)
+            canvasContext.clearRect(0, 0, videoWidth, videoHeight)
 
-        if (showVideo) {
-            canvasContext.save()
-            canvasContext.scale(-1, 1)
-            canvasContext.translate(-videoWidth, 0)
-            //canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0,700,700)
-            canvasContext.drawImage(video, 0, 0, 1050, 1050, 0, 0, 700, 700)
-            canvasContext.restore()
-        }
+            if (showVideo) {
+                canvasContext.save()
+                canvasContext.scale(-1, 1)
+                canvasContext.translate(-videoWidth, 0)
+                //canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0,700,700)
+                canvasContext.drawImage(video, 0, 0, 1050, 1050, 0, 0, 700, 700)
+                canvasContext.restore()
+            }
 
-        // poses.forEach(({score, keypoints}) => {
-        //     if (score >= minPoseConfidence) {
-        //         if (showPoints) {
-        //             drawKeyPoints(
-        //             keypoints,
-        //             minPartConfidence,
-        //             skeletonColor,
-        //             canvasContext
-        //             )
-        //         }
-        //         if (showSkeleton) {
-        //             drawSkeleton(
-        //             keypoints,
-        //             minPartConfidence,
-        //             skeletonColor,
-        //             skeletonLineWidth,
-        //             canvasContext
-        //             )
-        //         }
-        //     }
-        // })
+            // poses.forEach(({score, keypoints}) => {
+            //     if (score >= minPoseConfidence) {
+            //         if (showPoints) {
+            //             drawKeyPoints(
+            //             keypoints,
+            //             minPartConfidence,
+            //             skeletonColor,
+            //             canvasContext
+            //             )
+            //         }
+            //         if (showSkeleton) {
+            //             drawSkeleton(
+            //             keypoints,
+            //             minPartConfidence,
+            //             skeletonColor,
+            //             skeletonLineWidth,
+            //             canvasContext
+            //             )
+            //         }
+            //     }
+            // })
+
             if(this.videoActive){
                 requestAnimationFrame(findPoseDetectionFrame)
             }
@@ -185,8 +189,11 @@ class PoseNet extends Component {
         <div className = "camera_box">
             <div>
                 <video id="video" autoPlay="autoplay" width="700" height="700"
-                 playsInline ref={(ref) => {this.video=ref}} style={{display: "none"}}>
-                    <source src="/video/poop_1.mp4" type="video/mp4"></source>
+                 playsInline ref={(ref) => {this.video=ref}} style={{display: "none"}}
+                 onEnded={()=>{
+                     this.props.poses_to_jsonfile(); 
+                 }}>
+                    <source src="/video/poop.mp4" type="video/mp4"></source>
                 </video>
                 <canvas className="webcam" ref={(ref) => {this.canvas=ref}} />
             </div>
