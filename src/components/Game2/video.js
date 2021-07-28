@@ -70,8 +70,8 @@ class PoseNet extends Component {
         return new Promise(resolve => {
             video.onloadedmetadata = () => {
                 console.log("metadata loaded");
-                    video.play();
-                    resolve(video);
+                video.play();
+                resolve(video);
             }
         })
     }
@@ -128,15 +128,15 @@ class PoseNet extends Component {
             //         break
             //     }
             //     case 'single-pose': {
-                    const pose = await posenetModel.estimateSinglePose(
-                        this.video, 
-                        {imageScaleFactor:0.5, 
-                        flipHorizontal:true, 
-                        outputStride:16}
-                    );
-                    poses.push(pose);
-                    // this.props.getSimilarity(pose);
-                    this.props.getVideoPose(pose);
+            //         const pose = await posenetModel.estimateSinglePose(
+            //             this.video, 
+            //             {imageScaleFactor:0.5, 
+            //             flipHorizontal:true, 
+            //             outputStride:16}
+            //         );
+            //         poses.push(pose);
+            //         this.props.getSimilarity(pose);
+            //         this.props.getVideoPose(pose);
             //         break
             //     }
             // }
@@ -152,27 +152,27 @@ class PoseNet extends Component {
                 canvasContext.restore()
             }
 
-            poses.forEach(({score, keypoints}) => {
-                if (score >= minPoseConfidence) {
-                    if (showPoints) {
-                        drawKeyPoints(
-                        keypoints,
-                        minPartConfidence,
-                        skeletonColor,
-                        canvasContext
-                        )
-                    }
-                    if (showSkeleton) {
-                        drawSkeleton(
-                        keypoints,
-                        minPartConfidence,
-                        skeletonColor,
-                        skeletonLineWidth,
-                        canvasContext
-                        )
-                    }
-                }
-            })
+            // poses.forEach(({score, keypoints}) => {
+            //     if (score >= minPoseConfidence) {
+            //         if (showPoints) {
+            //             drawKeyPoints(
+            //             keypoints,
+            //             minPartConfidence,
+            //             skeletonColor,
+            //             canvasContext
+            //             )
+            //         }
+            //         if (showSkeleton) {
+            //             drawSkeleton(
+            //             keypoints,
+            //             minPartConfidence,
+            //             skeletonColor,
+            //             skeletonLineWidth,
+            //             canvasContext
+            //             )
+            //         }
+            //     }
+            // })
 
             if(this.videoActive){
                 requestAnimationFrame(findPoseDetectionFrame)
@@ -181,16 +181,20 @@ class PoseNet extends Component {
         findPoseDetectionFrame()
     }
 
+    videoEnded = () => {
+        console.log("video ended!!!!!!!");
+        this.props.video_ended();
+    }
     render() {
         return (
         <div className = "camera_box">
             <div>
                 <video id="video" autoPlay="autoplay" width="700" height="700"
                  playsInline ref={(ref) => {this.video=ref}} style={{display: "none"}}
-                 onEnded={()=>{
-                     this.props.poses_to_jsonfile(); 
-                 }}>
-                    <source src="/video/poop_4.mp4" type="video/mp4"></source>
+                 onEnded={
+                     this.videoEnded
+                 }>
+                    <source src="/video/poop.mp4" type="video/mp4"></source>
                 </video>
                 <canvas className="webcam" ref={(ref) => {this.canvas=ref}} />
             </div>

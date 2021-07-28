@@ -59,7 +59,7 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.props.cameraStart();
+      this.props.gameStart();
       this.detectPose();
       
     }
@@ -204,7 +204,7 @@ class PoseNet extends Component {
         }
       })
       if(this.cameraActive){
-        console.log("camera detecting...")
+        // console.log("camera detecting...")
         requestAnimationFrame(findPoseDetectionFrame)
       }
     }
