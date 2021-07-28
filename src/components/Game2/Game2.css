@@ -1,5 +1,36 @@
+.Game2{
+    overflow-x : hidden
+}
 .camera_box{
     display : inline-block
+}
+
+.pictogram{
+    height : 200px;
+}
+.pictogram_wraper{
+    margin-top : -200px;
+    display : inline-block;
+    position : relative;
+}
+
+.dance_info_bar{
+    position : relative;
+    z-index : 10;
+    height : 200px;
+    white-space: nowrap;
+}
+
+.pictogramAnimation{
+    left : 960px;
+    animation-name: animation2;
+    animation-duration: 37s;
+    animation-timing-function :linear;
+}
+
+@keyframes animation2 {
+    0%   {left: 960px}
+    100% {left: -19000px}
 }
 
 .neonText {
@@ -13,7 +44,6 @@
     width : 200px;
     text-align : center;
     margin : 0px auto;
-    margin-bottom : 70px;
     font-size : 60px;
     text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa,
       0 0 50px #0fa, 0 0 60px #0fa;

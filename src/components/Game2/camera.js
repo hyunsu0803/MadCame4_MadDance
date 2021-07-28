@@ -91,7 +91,7 @@ class PoseNet extends Component {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        //deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
+        deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
         facingMode: 'user',
         width:videoWidth,
         height: videoHeight
@@ -145,20 +145,6 @@ class PoseNet extends Component {
     const findPoseDetectionFrame = async () => {
       let poses = []
 
-      switch (algorithm) {
-        case 'multi-pose': {
-          poses = await posenetModel.estimateMultiplePoses(
-          video, 
-          imageScaleFactor, 
-          flipHorizontal, 
-          outputStride, 
-          maxPoseDetections, 
-          minPartConfidence, 
-          nmsRadius
-          )
-          break
-        }
-        case 'single-pose': {
           const pose = await posenetModel.estimateSinglePose(
           video, 
           {imageScaleFactor:0.5, 
@@ -166,11 +152,9 @@ class PoseNet extends Component {
           outputStride:16}
           );
           poses.push(pose);
-          // this.props.getSimilarity(pose);
-          this.props.getCameraPose(pose);
-          break
-        }
-      }
+          this.props.getSimilarity(pose);
+          // this.props.getCameraPose(pose);
+
 
       canvasContext.clearRect(0, 0, videoWidth, videoHeight)
 
@@ -184,15 +168,12 @@ class PoseNet extends Component {
 
       poses.forEach(({score, keypoints}) => {
         if (score >= minPoseConfidence) {
-          if (showPoints) {
             drawKeyPoints(
               keypoints,
               minPartConfidence,
               skeletonColor,
               canvasContext
             )
-          }
-          if (showSkeleton) {
             drawSkeleton(
               keypoints,
               minPartConfidence,
@@ -200,11 +181,9 @@ class PoseNet extends Component {
               skeletonLineWidth,
               canvasContext
             )
-          }
         }
       })
       if(this.cameraActive){
-        console.log("camera detecting...")
         requestAnimationFrame(findPoseDetectionFrame)
       }
     }

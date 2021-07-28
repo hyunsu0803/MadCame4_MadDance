@@ -156,10 +156,10 @@ class Game1 extends Component {
 
     render() {
         return (
-            <div className = "SpeedGame" style ={{
+            <div className = "SpeedGame"style ={{
               backgroundImage : "url(/img/madDance_background2.jpg)", 
               backgroundSize : "100% 100%"
-              }}>
+              }} >
                 <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
                   <div class="button_base b05_3d_roll home_button">
                     <div>HOME</div>
