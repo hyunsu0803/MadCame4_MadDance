@@ -194,7 +194,6 @@ class Game1 extends Component {
           </header>
             
             <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-            {/* {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/> : null} */}
             {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} cameraStart = {this.cameraStart}/> : null}
             {this.state.showImg ? <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img> : null}
             <div className = "modal_wraper">

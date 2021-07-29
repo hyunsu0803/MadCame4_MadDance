@@ -13,10 +13,10 @@ import poop5_poses from './answerJson/poop_5.json';
 import axios from 'axios';
 
 
-class Game2 extends Component {
+class Game3 extends Component {
 
     constructor(props){
-        super(props, Game2.defaultProps);
+        super(props, Game3.defaultProps);
         this.state = {
             currentInterval : undefined,
             isModalOpen : false,
@@ -39,13 +39,7 @@ class Game2 extends Component {
         this.setState({nickname : this.props.location.state.nickname});
     }
 
-    cameraStart = () => {
-        // alert("camera Start");
-    }
-
     gameStart = () => {
-        console.log("gameStart");
-        alert("gameStart");
         this.is_grading = true;
         this.setState({currentInterval : 1});
         this.video.play();
@@ -59,7 +53,6 @@ class Game2 extends Component {
     }
 
     getCameraPose = (camerapose) => {
-        // console.log("camerapose : ", camerapose);
         this.cameraPoses.push(camerapose);
     }
 
@@ -67,7 +60,7 @@ class Game2 extends Component {
 
         var answerPoses = undefined;
         var ci = this.state.currentInterval;
-        console.log("@@@@@@@@@@ ci : ", this.state.currentInterval);
+
         if (ci === 2 || ci === 3 || ci === 5 || ci === 7 || ci === 8) 
         {
             this.changeAnimation();
@@ -105,8 +98,6 @@ class Game2 extends Component {
             this.run_dtw(answerKeyPoints, cameraKeyPoints);
         
         } else {
-            console.log("#### currentInterval : ", this.state.currentInterval);
-            console.log("#### 여기는 else임 ");
             this.setState({currentInterval : ci + 1});
             this.cameraPoses = [];
             return;
@@ -123,7 +114,6 @@ class Game2 extends Component {
                     return Math.abs(a - b);
                 });
                 sum_of_distance += dtw.getDistance();
-                console.log("@@@@ dtw.getDistance nose_x ", dtw.getDistance());
             }
             
         }
@@ -151,7 +141,6 @@ class Game2 extends Component {
     } 
 
     video_ended = () => {
-        console.log("@@@@ show score : ", this.total_score);
 
         axios.post(`/api/board3/add`, {
             name : this.state.nickname,
@@ -218,8 +207,7 @@ class Game2 extends Component {
                 </header>
                 
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-                {this.state.showCamera ? <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart}/> : null}
-                {/* {this.state.showVideo ? <Video videoStart = {this.videoStart} video_ended = {this.video_ended} /> : null} */}
+                {this.state.showCamera ? <Camera getCameraPose = {this.getCameraPose}/> : null}
                 {this.state.showVideo ? 
                 <div className = "camera_box">
                     <video id="video" width="700" height="700"
@@ -244,4 +232,4 @@ class Game2 extends Component {
     }
 }
 
-export default Game2;
+export default Game3;

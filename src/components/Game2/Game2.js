@@ -71,18 +71,14 @@ class Game2 extends Component {
         }else{
           this.setState({animationClass : ""})
         }
-      }
+    }
 
     animationEnd = () => {
         this.changeAnimation();
-      }
+    }
 
     openModal = () => {
         this.setState({isModalOpen : true});
-      }
-
-    cameraStart = () => {
-        alert("camera Start");
     }
 
     gameStart = () => {
@@ -198,7 +194,7 @@ class Game2 extends Component {
                 </header>
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
                 {this.state.showCamera ? 
-                <Camera getSimilarity = {this.getSimilarity} cameraStart = {this.cameraStart}/> : null}
+                <Camera getSimilarity = {this.getSimilarity}/> : null}
                 {this.state.showVideo ? 
                 <div className = "camera_box">
                     <video id="video" width="700" height="700"
