@@ -29,7 +29,9 @@ class Game1 extends Component {
     totalScore = 0;
     similarityPerImg = [];
     score = [];
-    clockCall = undefined
+    clockCall = undefined;
+    criteria_excellent = [0.01,0.01,0.09,0.07,0.095,0.08,0.13,0.06,0.12,0.1];
+    criteria_good = [0.13,0.12,0.1,0.08,0.1,0.095,0.15,0.07,0.13,0.115];
 
     async componentDidMount() {
         //import image
@@ -112,10 +114,10 @@ class Game1 extends Component {
       if(this.state.currentImgNum>0){
         var currentScore = this.getScore(); //점수
         this.score.push(currentScore);
-        if(currentScore<0.05){
+        if(currentScore<this.criteria_excellent[this.state.currentImgNum-1]){
           this.setState({scoreMent : "excellent"});
           this.totalScore+=10;
-        }else if(currentScore<0.01){
+        }else if(currentScore<this.criteria_good[this.state.currentImgNum-1]){
           this.setState({scoreMent : "good"});
           this.totalScore+=5;
         }else{

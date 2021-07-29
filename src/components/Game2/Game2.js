@@ -39,6 +39,9 @@ class Game2 extends Component {
     pictogramList = [];
     leftMargin = [];
     totalScore = 0;
+    criteria_excellent = [0.02,0.035,0.04,0.03,0.045,0.045,0.05,0.04,0.03,0.07,0.03,0.009,0.03,0.05,0.04,0.027,0.025,0.03,0.06,0.06,0.07,0.035,0.05,0.04,0.03,0.07]
+    criteria_good = [0.025,0.045,0.05,0.045,0.05,0.05,0.055,0.05,0.035,0.08,0.035,0.01,0.033,0.05,0.05,0.03,0.027,0.033,0.08,0.07,0.1,0.04,0.085,0.05,0.035,0.085]
+    
 
     componentDidMount() {
         //pictogram image import
@@ -133,10 +136,10 @@ class Game2 extends Component {
         console.log(this.similarityPerImg.toString());
         var currentScore = Math.min(...this.similarityPerImg)
         this.score.push(currentScore);
-        if(currentScore<0.05){
+        if(currentScore<this.criteria_excellent[this.currentImgNum]){
             this.setState({scoreMent : "excellent"});
             this.totalScore+=10;
-          }else if(currentScore<0.01){
+          }else if(currentScore<this.criteria_good[this.currentImgNum]){
             this.setState({scoreMent : "good"});
             this.totalScore+=5;
           }else{
