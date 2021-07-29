@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import Camera from './camera.js'
 import Video from './video.js'
@@ -222,7 +223,15 @@ class Game2 extends Component {
             
             // <Video></Video>
         )
+=======
+
+class Game3 extends Component {
+    render() {
+        return(
+            <div>Game2</div>
+        );
+>>>>>>> hyunsoo
     }
 }
 
-export default Game2;
+export default Game3;
