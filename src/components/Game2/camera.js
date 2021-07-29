@@ -59,7 +59,7 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.props.cameraStart();
+      // this.props.cameraStart();
       this.detectPose();
       
     }

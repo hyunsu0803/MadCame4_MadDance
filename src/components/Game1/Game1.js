@@ -21,7 +21,8 @@ class Game1 extends Component {
             scoreMent : " ",
             animationClass : "",
             showCamera : true,
-            showImg : true
+            showImg : true,
+            nickname : ""
         }
     }
     
@@ -40,6 +41,7 @@ class Game1 extends Component {
         } 
         this.setState({imgList : tempList});
         this.loadPoseNet().then(() => {this.changeAnswerPose()});
+        this.setState({nickname : this.props.location.state.nickname});
     }
 
     async loadPoseNet() {
@@ -65,13 +67,15 @@ class Game1 extends Component {
         this.changeAnimation();
       } ,3000);
     }
-
+    cameraStart = () => {
+      alert("camera Start");
+    }
     gameEnd = () => {
       clearInterval(this.clockCall);
       setTimeout(this.removeElements(), 2000);
 
       axios.post(`/api/board1/add`, {
-        name : this.props.locations.state.nickname,
+        name : this.state.nickname,
         score : this.totalScore
       }).then(response=> console.log(response.status))
 
@@ -163,36 +167,51 @@ class Game1 extends Component {
     }
 
     render() {
-        return (
-            <div className = "SpeedGame"style ={{
-              backgroundImage : "url(/img/madDance_background2.jpg)", 
-              backgroundSize : "100% 100%"
-              }} >
+      return (
+        <div className = "SpeedGame"style ={{
+          backgroundImage : "url(/img/madDance_background2.jpg)", 
+          backgroundSize : "100% 100%"
+          }} >
+            
+          <header className="header_buttons">
+            <div className = "start_button_position">
+              <div className = "game_start" onClick = {this.gameStart}>
+                  <div className = "button_base b05_3d_roll">
+                      <div>GAME START</div>
+                      <div>GAME START</div>
+                  </div>
+              </div>
+            </div>
+            
+            <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
+                <div class = "home_button_position">
+                <div class="button_base b05_3d_roll">
+                        <div>HOME</div>
+                        <div>HOME</div>
+                </div>
+                </div>
+            </Link>
+          </header>
+            
+            <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
+            {/* {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/> : null} */}
+            {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} cameraStart = {this.cameraStart}/> : null}
+            {this.state.showImg ? <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img> : null}
+            <div className = "modal_wraper">
+              <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
+                <div className = "score_info">Your Total Score is</div>
+                <div className = "score_total">{this.totalScore}</div>
                 <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
-                  <div class="button_base b05_3d_roll home_button">
+                  <div class="button_base b05_3d_roll">
                     <div>HOME</div>
                     <div>HOME</div>
                   </div>
                 </Link>
-                <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-                {/* <Timer time = {3} timeOut = {this.timeOut} isTimerActive = {this.state.isTimerActive}/> */}
-                {this.state.showCamera ? <Camera getSimilarity = {this.getSimilarity} gameStart = {this.gameStart}/> : null}
-                {this.state.showImg ? <img  className = "game1_img"src = {this.state.imgList[this.state.currentImgNum]} ref={(ref) => {this.answerImg=ref}}></img> : null}
-                <div className = "modal_wraper">
-                  <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
-                    <div className = "score_info">Your Total Score is</div>
-                    <div className = "score_total">{this.totalScore}</div>
-                    <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
-                      <div class="button_base b05_3d_roll">
-                        <div>HOME</div>
-                        <div>HOME</div>
-                      </div>
-                    </Link>
-                  </Modal>
-                </div>
+              </Modal>
             </div>
-        )
-    }
+        </div>
+    )
+  }
 }
 
 export default Game1

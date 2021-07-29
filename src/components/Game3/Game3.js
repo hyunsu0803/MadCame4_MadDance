@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Camera from './camera.js';
 import Video from './video.js';
 import './Game3.css';
-
 import Modal from 'react-modal';
 import DynamicTimeWarping from 'dynamic-time-warping';
 import poop1_poses from './answerJson/poop_1.json';
@@ -11,6 +10,7 @@ import poop2_poses from './answerJson/poop_2.json';
 import poop3_poses from './answerJson/poop_3.json';
 import poop4_poses from './answerJson/poop_4.json';
 import poop5_poses from './answerJson/poop_5.json';
+import axios from 'axios';
 
 
 class Game2 extends Component {
@@ -23,7 +23,8 @@ class Game2 extends Component {
             showCamera : true,
             showVideo : true,
             scoreMent : " ",
-            animationLCass : ""
+            animationLCass : "",
+            nickname : ""
         }
     }
 
@@ -35,6 +36,11 @@ class Game2 extends Component {
 
     componentDidMount() {
         console.log("componentDidMount");
+        this.setState({nickname : this.props.location.state.nickname});
+    }
+
+    cameraStart = () => {
+        // alert("camera Start");
     }
 
     gameStart = () => {
@@ -42,6 +48,7 @@ class Game2 extends Component {
         alert("gameStart");
         this.is_grading = true;
         this.setState({currentInterval : 1});
+        this.video.play();
 
         this.clockCall = setInterval(() => {
             console.log("#### setInterval, currentInterval : ", this.state.currentInterval);
@@ -57,27 +64,17 @@ class Game2 extends Component {
     }
 
     timeOut = () => {
-        // 모여있던 camera pose를 다 갖고와서 answer pose랑 같이 dtw에 넘김.
-        // answer pose 바꿈.
-        // 몇 번째 interval인지 체크하고 증가시켜주자
-        // 모여있던 camera pose 초기화 해주기 
-        
+
         var answerPoses = undefined;
         var ci = this.state.currentInterval;
         console.log("@@@@@@@@@@ ci : ", this.state.currentInterval);
         if (ci === 2 || ci === 3 || ci === 5 || ci === 7 || ci === 8) 
         {
-            // setTimeout(this.changeAnimation(), 1000);
             this.changeAnimation();
 
             answerPoses = this.answerPosesList[ci];
             var cameraKeyPoints = []; // 0 ~ 16
             var answerKeyPoints = []; // 0 ~ 16
-
-            console.log("@@@@ answerPoses : ", answerPoses);
-            console.log("@@@@ this.cameraPoses : ", this.cameraPoses)
-            console.log("@@@@ ci : ", ci)
-            console.log("@@@@ currentInterval : ", this.state.currentInterval);
 
             let f = 0, b = 0;
             for (b = 0; b < 17; b++) {
@@ -156,6 +153,11 @@ class Game2 extends Component {
     video_ended = () => {
         console.log("@@@@ show score : ", this.total_score);
 
+        axios.post(`/api/board3/add`, {
+            name : this.state.nickname,
+            score : this.total_score
+        }).then(response => console.log(response.status));
+
         clearInterval(this.clockCall);
         this.is_grading = false;
         setTimeout(this.removeElements(), 2000);
@@ -186,18 +188,45 @@ class Game2 extends Component {
     }
 
     render() {
-        console.log("game2 render");
+        console.log("game3 render");
         return (
-            <div className = "SpeedGame">
-                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
-                    <div class="button_base b05_3d_roll">
-                            <div>HOME</div>
-                            <div>HOME</div>
+            <div className = "Game3" style ={{
+                backgroundImage : "url(/img/madDance_background2.jpg)", 
+                backgroundSize : "100% 100%"
+                }}>
+
+                <header className="header_buttons">
+                    <div className = "start_button_position">
+                        <div className = "game_start" onClick = {this.gameStart}>
+                            
+                            <div className = "button_base b05_3d_roll">
+                                <div>GAME START</div>
+                                <div>GAME START</div>
+                            </div>
+                        </div>
                     </div>
-                </Link>
+                   
+                    <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
+                        <div class = "home_button_position">
+                        <div class="button_base b05_3d_roll">
+                                <div>HOME</div>
+                                <div>HOME</div>
+                        </div>
+                        </div>
+                        
+                    </Link>
+                </header>
+                
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-                {this.state.showCamera ? <Camera getCameraPose = {this.getCameraPose} gameStart = {this.gameStart}/> : null}
-                {this.state.showVideo ? <Video videoStart = {this.videoStart} video_ended = {this.video_ended} /> : null}
+                {this.state.showCamera ? <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart}/> : null}
+                {/* {this.state.showVideo ? <Video videoStart = {this.videoStart} video_ended = {this.video_ended} /> : null} */}
+                {this.state.showVideo ? 
+                <div className = "camera_box">
+                    <video id="video" width="700" height="700"
+                    playsInline ref={(ref) => {this.video=ref}} style={{transform:"scaleX(-1)"}} onEnded = {this.video_ended}> 
+                        <source src="/video/poop.mp4" type="video/mp4"></source>
+                    </video>
+                </div> : null}
                 <div className = "modal_wraper">
                   <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
                     <div className = "score_info">Your Total Score is</div>

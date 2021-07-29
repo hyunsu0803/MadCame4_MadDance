@@ -18,11 +18,11 @@
     background-color : white;
     opacity : 0.5;
 }
-.game_start{
+/* .game_start{
     position : absolute;
     top : 100px;
     left : 200px;
-}
+} */
 
 
 .pictogram{
@@ -75,10 +75,6 @@
     animation-duration: .5s;
     animation-timing-function : ease-in;
 }
-
-/* img{
-    background : black;
-} */
 
 @keyframes example {
     0%   {top : 50px; opacity : 1.0}

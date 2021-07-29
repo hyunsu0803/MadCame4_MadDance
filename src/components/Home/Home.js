@@ -113,21 +113,21 @@ class Home extends Component {
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 1 Score Board <br/>
-                                    -----------------------------
+                                    
                                 </div>
                                 {this.state.board1.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 2 Score Board <br/>
-                                    -----------------------------
+                                    
                                 </div>
                                 {this.state.board2.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 3 Score Board <br/>
-                                    -----------------------------
+                                    
                                 </div>
                                 {this.state.board3.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
