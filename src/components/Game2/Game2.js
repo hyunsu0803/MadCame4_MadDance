@@ -9,7 +9,7 @@ import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
 import fs from 'fs';
 import answerPoseData from './answer.json'
-
+import axios from "axios";
 
 class Game2 extends Component {
 
@@ -24,7 +24,8 @@ class Game2 extends Component {
             animationClass : "",
             pictogramAnimation : "",
             showCamera : true,
-            showVideo : true
+            showVideo : true,
+            nickname :""
         }
     }
     
@@ -46,6 +47,7 @@ class Game2 extends Component {
         for (i=1; i<=27 ;i++){
             this.pictogramList.push("/img/dundundance/"+i+".png");
         }
+        this.setState({nickname : this.props.location.state.nickname});
         //answerdata import
         this.answerPoseList = answerPoseData
         this.answerLength = answerPoseData.length;
@@ -147,6 +149,14 @@ class Game2 extends Component {
     videoEnd = () => {
         console.log("score is" + this.score.toString());
         console.log("score length is" + this.score.length);
+        console.log("nickname is" + this.state.nickname);
+        console.log("total score is" + this.totalScore);
+
+        axios.post(`/api/board2/add`, {
+            name : this.state.nickname,
+            score : this.totalScore
+        }).then(response=> console.log(response.status))
+        
         setTimeout(this.removeElements(), 2000);
         this.openModal();
     }
@@ -166,7 +176,7 @@ class Game2 extends Component {
                 backgroundSize : "100% 100%"
                 }}>
                 <button className = "game_start" onClick = {this.gameStart}>GAMESTART</button>
-                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
                     <div class="button_base b05_3d_roll home_button">
                             <div>HOME</div>
                             <div>HOME</div>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
 import Modal from 'react-modal';
+import axios from "axios";
 
 import Camera from './camera.js'
 import Timer from './timer.js'
@@ -67,6 +68,12 @@ class Game1 extends Component {
     gameEnd = () => {
       clearInterval(this.clockCall);
       setTimeout(this.removeElements(), 2000);
+
+      axios.post(`/api/board1/add`, {
+        name : this.props.locations.state.nickname,
+        score : this.totalScore
+      }).then(response=> console.log(response.status))
+
       this.openModal();
     }
 

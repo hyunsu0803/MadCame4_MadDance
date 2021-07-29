@@ -25,6 +25,16 @@ class Home extends Component {
             console.log(response);
             this.setState({board1 : [...response.data]});
         })
+        axios.get(`/api/board2/`)
+        .then(response => {
+            console.log(response);
+            this.setState({board2 : [...response.data]});
+        })
+        axios.get(`/api/board3/`)
+        .then(response => {
+            console.log(response);
+            this.setState({board3 : [...response.data]});
+        })
 
         if(this.props.location.state  !== undefined) { //nickname from coverpage
             this.setState({nickname : this.props.location.state.nickname});
@@ -59,21 +69,21 @@ class Home extends Component {
                                     GAME 1 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                {this.state.board1.map(row => (<ScoreItem key = {row.rank} row = {row}/>))}
+                                {this.state.board1.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 2 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                                {this.state.board2.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
                             <div className="board-item">
                                 <div className="ScoreBoard">
                                     GAME 3 Score Board <br/>
                                     -----------------------------
                                 </div>
-                                {/* {this.state.board2.map(row => (<ScoreItem key = {row.rnk} row = {row}/>))} */}
+                                {this.state.board3.map((row,index) => (<ScoreItem key = {index} row = {row}/>))}
                             </div>
                         </div>
                     </div>
