@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Link } from "react-router-dom";
 import Camera from './camera.js'
 import Video from './video.js'
+import Modal from 'react-modal';
 import './Game2.css'
 import Timer from './timer.js'
 import { poseSimilarity } from 'posenet-similarity';
@@ -15,12 +16,15 @@ class Game2 extends Component {
     constructor(props){
         super(props, Game2.defaultProps);
         this.state = {
+            isModalOpen : false,
             currentImgNum : 0,
             isTimerActive : true,
             answerPose : {}, 
             scoreMent : "",
             animationClass : "",
             pictogramAnimation : "",
+            showCamera : true,
+            showVideo : true
         }
     }
     
@@ -34,6 +38,7 @@ class Game2 extends Component {
     currentImgNum = 0;
     pictogramList = [];
     leftMargin = [];
+    totalScore = 0;
 
     componentDidMount() {
         //pictogram image import
@@ -71,6 +76,10 @@ class Game2 extends Component {
         this.changeAnimation();
       }
 
+    openModal = () => {
+        this.setState({isModalOpen : true});
+      }
+
     cameraStart = () => {
         alert("camera Start");
     }
@@ -93,7 +102,9 @@ class Game2 extends Component {
     }
 
     getSimilarity = (detectedpose) => {
-        if(document.getElementById("video").currentTime > this.checkTiming ){
+        if(document.getElementById("video")!=null && 
+        document.getElementById("video").currentTime > this.checkTiming )
+        {
             if(this.currentImgNum<this.answerLength-1){
                 this.getScore();
                 this.changeAnimation();
@@ -135,12 +146,18 @@ class Game2 extends Component {
 
     videoEnd = () => {
         console.log("score is" + this.score.toString());
-
         console.log("score length is" + this.score.length);
+        setTimeout(this.removeElements(), 2000);
+        this.openModal();
     }
 
-    // pictogramAnimation : "pictogramAnimation
-    // if(this.state.)
+    removeElements = ()=> {
+        this.setState({
+          showCamera : false,
+          showVideo : false
+        })
+      }
+
     render() {
         console.log("game2 render");
         return (
@@ -148,7 +165,7 @@ class Game2 extends Component {
                 backgroundImage : "url(/img/madDance_background2.jpg)", 
                 backgroundSize : "100% 100%"
                 }}>
-                <button onClick = {this.gameStart}>GAMESTART</button>
+                <button className = "game_start" onClick = {this.gameStart}>GAMESTART</button>
                 <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
                     <div class="button_base b05_3d_roll home_button">
                             <div>HOME</div>
@@ -156,13 +173,16 @@ class Game2 extends Component {
                     </div>
                 </Link>
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
-                <Camera getCameraPose = {this.getCameraPose} cameraStart = {this.cameraStart} getSimilarity = {this.getSimilarity}/>
+                {this.state.showCamera ? 
+                <Camera getSimilarity = {this.getSimilarity} cameraStart = {this.cameraStart}/> : null}
+                {this.state.showVideo ? 
                 <div className = "camera_box">
                     <video id="video" width="700" height="700"
                     playsInline ref={(ref) => {this.video=ref}} style={{scaleX : -1}} onEnded = {this.videoEnd}> 
                         <source src="/video/dundun_dance.mp4" type="video/mp4"></source>
                     </video>
-                </div>
+                </div> : null}
+                
                 <div className =  {["dance_info_bar", this.state.pictogramAnimation].join(" ")}>
                     {this.pictogramList.map((element, index) => {
                         var style = {
@@ -174,6 +194,19 @@ class Game2 extends Component {
                             </div>
                         )
                     })}
+                </div>
+                <div className ="timing_box"></div>
+                <div className = "modal_wraper">
+                  <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
+                    <div className = "score_info">Your Total Score is</div>
+                    <div className = "score_total">{this.totalScore}</div>
+                    <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                      <div class="button_base b05_3d_roll">
+                        <div>HOME</div>
+                        <div>HOME</div>
+                      </div>
+                    </Link>
+                  </Modal>
                 </div>
             </div>
             
