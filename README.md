@@ -13,7 +13,7 @@ Login, HomePage, Game1, Game2, Game3
 
 ### 1. Login
 일회성 닉네임을 입력하면 로그아웃 하기 전까지 해당 닉네임으로 게임을 플레이 할 수 있다. 
-사용자가 입력한 닉네임은 Homepage로 전달되어 wellcome 멘트를 확인할 수 있다.
+사용자가 입력한 닉네임은 Homepage로 전달되어 welcome 멘트를 확인할 수 있다.
 
 <img src="https://user-images.githubusercontent.com/61833862/127553599-15ab82b5-a9f4-4479-989b-d7296ed4d714.png" width = "500" height="100%">
 
