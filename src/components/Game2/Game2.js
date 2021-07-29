@@ -174,13 +174,28 @@ class Game2 extends Component {
                 backgroundImage : "url(/img/madDance_background2.jpg)", 
                 backgroundSize : "100% 100%"
                 }}>
-                <button className = "game_start" onClick = {this.gameStart}>GAMESTART</button>
-                <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
-                    <div class="button_base b05_3d_roll home_button">
-                            <div>HOME</div>
-                            <div>HOME</div>
+
+                <header className="header_buttons">
+                    <div className = "start_button_position">
+                        <div className = "game_start" onClick = {this.gameStart}>
+                            
+                            <div className = "button_base b05_3d_roll">
+                                <div>GAME START</div>
+                                <div>GAME START</div>
+                            </div>
+                        </div>
                     </div>
-                </Link>
+                    
+                    <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
+                        <div class = "home_button_position">
+                        <div class="button_base b05_3d_roll">
+                                <div>HOME</div>
+                                <div>HOME</div>
+                        </div>
+                        </div>
+                        
+                    </Link>
+                </header>
                 <div className = {["neonText", "score", this.state.animationClass].join(' ')}  onAnimationEnd = {this.animationEnd}>{this.state.scoreMent}</div>
                 {this.state.showCamera ? 
                 <Camera getSimilarity = {this.getSimilarity} cameraStart = {this.cameraStart}/> : null}

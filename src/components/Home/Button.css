@@ -17,6 +17,18 @@
     }
 }
 
+
+.home_button_position{
+    position: absolute;
+    top : 80px;
+    right : 65%;
+}
+.start_button_position{
+    position : absolute;
+    top : 80px;
+    left : 65%;
+}
+
 .button_base {
     display : inline-block;
     margin: 0;
@@ -28,15 +40,8 @@
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    -webkit-user-select: none;
     cursor: default;
     
-}
-
-.home_button{
-    position: absolute;
-    top : 5%;
-    right: 5%;
 }
 
 .button_base:hover {

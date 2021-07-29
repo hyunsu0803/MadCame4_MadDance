@@ -59,7 +59,7 @@ class PoseNet extends Component {
       setTimeout(() => {
         this.setState({loading: false})
       }, 200)
-      this.props.cameraStart();
+      // this.props.cameraStart();
       this.detectPose();
       
     }
@@ -91,7 +91,7 @@ class PoseNet extends Component {
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
+        // deviceId: {exact: "4411841e759cb2f1bab57110e4cfee23117c5e5dfa1d8b9b908c463b32bfd64d"}, //webcam videoInput Id값 받아오기
         facingMode: 'user',
         width:videoWidth,
         height: videoHeight
