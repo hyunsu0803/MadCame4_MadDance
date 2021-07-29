@@ -1,5 +1,6 @@
 .Game2{
-    overflow-x : hidden
+    overflow-x : hidden;
+    height : 100%;
 }
 .camera_box{
     display : inline-block;
@@ -11,11 +12,11 @@
 .timing_box{
     display : inline-block;
     position : relative;
-    margin-top : -100px;
     top : -200px;
     width : 300px;
     height : 200px;
-    box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 14px #fff, 0 0 30px #0fa, 0 0 50px #0fa;
+    background-color : white;
+    opacity : 0.5;
 }
 .game_start{
     position : absolute;
@@ -28,7 +29,6 @@
     height : 200px;
 }
 .pictogram_wraper{
-    margin-top : -100px;
     display : inline-block;
     position : relative;
 }
