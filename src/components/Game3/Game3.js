@@ -35,7 +35,6 @@ class Game3 extends Component {
     answerPosesList = [undefined, undefined, poop1_poses, poop2_poses, undefined, poop3_poses, undefined, poop4_poses, poop5_poses];
 
     componentDidMount() {
-        console.log("componentDidMount");
         this.setState({nickname : this.props.location.state.nickname});
     }
 
@@ -219,7 +218,7 @@ class Game3 extends Component {
                   <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
                     <div className = "score_info">Your Total Score is</div>
                     <div className = "score_total">{this.total_score}</div>
-                    <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                    <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
                       <div class="button_base b05_3d_roll">
                         <div>HOME</div>
                         <div>HOME</div>
