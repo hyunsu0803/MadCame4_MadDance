@@ -2,30 +2,25 @@ const express = require("express");
 const router = express.Router();
 var mysql = require('mysql');
 const {createConnection} = require('net');
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'lhmin35123!',
-    database: 'MadDance'
-});
+const connection = require('./connection');
 
 router.get("/", (req, res) => {
-    var scoreRecord = new Array();
-    connection.query('SET @ROWNUM:=0;')
-    connection.query('SELECT @ROWNUM:=@ROWNUM+1 AS rank, A.* FROM brd1 A ORDER BY UserScore DESC;', function(error, results, fields){
+    var brd1Record = new Array();
+    connection.query('SELECT * FROM brd1 ORDER BY UserScore DESC;', function(error, results, fields){
         if(error){
             console.log(error);
         }else{
             console.log(results);
-            for(i=0; i<10; i++){
-                scoreRecord.push({
-                    rank : results[i].rank,
-                    name : results[i].UserName,
-                    score : results[i].UserScore
+            const length = results.length<10 ? results.length : 10;
+            for(j=0; j<length; j++){
+                console.log(j);
+                brd2Record.push({
+                    rank : j+1,
+                    name : results[j].UserName,
+                    score : results[j].UserScore
                 })
             }
-            res.send(scoreRecord);
+            res.send(brd1Record);
         }
     })
 });
