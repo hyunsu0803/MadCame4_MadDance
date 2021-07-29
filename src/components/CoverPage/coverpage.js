@@ -5,6 +5,30 @@ import "./coverpage.css"
 
 class CoverPage extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            audioFlag : "/img/volume.png"
+        }
+    }
+    
+    componentDidMount(){
+        const audio = this.audio;
+        audio.play();
+        audio.volume = 0.5;
+      }
+
+    changeAudioFlag = () => {
+        if(this.state.audioFlag==="/img/mute.png"){
+            this.setState({audioFlag : "/img/volume.png"});
+            this.audio.play();
+        }else{
+            this.setState({audioFlag : "/img/mute.png"});
+            this.audio.pause();
+        }
+        
+    }
+
     render() {
         return(
             <div className = "CoverPage" style ={{
@@ -24,6 +48,8 @@ class CoverPage extends Component {
                         <img className = "maddance_logo" src = "/img/maddance_logo.png"/>    
                     </div> 
                 </div>
+                <audio src="/sound/8_Bit_Adventure.mp3" ref={(ref) => {this.audio=ref}}/>
+                <div className = "sound_icon_wraper" onClick = {this.changeAudioFlag}><img  className = "sound_icon" src = {this.state.audioFlag}></img></div>
             </div>
         );
         

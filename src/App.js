@@ -10,6 +10,7 @@ import Game3 from './components/Game3/Game3.js';
 
 
 class App extends Component {
+
   render(){
     return (
       <div className="App">
@@ -25,7 +26,6 @@ class App extends Component {
           </main>
 
         </Router>
-
   
         
       </div>

@@ -6,6 +6,8 @@ import './Button.css'
 import './Home.css'
 import ScoreItem from './ScoreItem';
 import axios from "axios";
+import {Howl, Howler} from 'howler';
+import { withRouter } from 'react-router-dom';
 
 class Home extends Component {
 
@@ -42,24 +44,56 @@ class Home extends Component {
         }
     }
 
+    soundPlay = (src)=> {
+        const sound = new Howl({
+            src
+        })
+        sound.play();
+    }
+
+    toGame1 = ()=> {
+        this.soundPlay("/sound/Coin.wav");
+        this.props.history.push({
+            pathname: '/game1',
+            state: { nickname : this.state.nickname}
+        });
+    }
+    toGame2 = ()=> {
+        this.soundPlay("/sound/Coin.wav");
+        this.props.history.push({
+            pathname: '/game2',
+            state: { nickname : this.state.nickname}
+        });
+    }
+    toGame3 = ()=> {
+        this.soundPlay("/sound/Coin.wav");
+        this.props.history.push({
+            pathname: '/game3',
+            state: { nickname : this.state.nickname}
+        });
+    }
+
+
+
     render() {
+        Howler.volume(0.5)
         let gameCard = 
         <div>
-            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">
-                <div className = "carousel_thumbnail_wraper">
+            <div className="carousel-item" onClick = {this.toGame1}>
+            <div className = "carousel_thumbnail_wraper">
                     <img className = "carousel_thumbnail" src = {"/img/thumbnail1.png"}></img>
                 </div>
-            </Link>
-            <Link to={{pathname : "/game2", state:{nickname : this.state.nickname}}} className="carousel-item">
-                <div className = "carousel_thumbnail_wraper">
+            </div>
+            <div className="carousel-item" onClick = {this.toGame2}>
+            <div className = "carousel_thumbnail_wraper">
                     <img className = "carousel_thumbnail" src = {"/img/thumbnail3.png"}></img>
                 </div>
-            </Link>
-            <Link to={{pathname : "/game3", state:{nickname : this.state.nickname}}} className="carousel-item">
-                <div className = "carousel_thumbnail_wraper">
+            </div>
+            <div className="carousel-item" onClick = {this.toGame3}>
+            <div className = "carousel_thumbnail_wraper">
                     <img className = "carousel_thumbnail" src = {"/img/thumbnail2.png"}></img>
                 </div>
-            </Link>
+            </div>
         </div>
 
         return(
@@ -107,4 +141,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default withRouter(Home);

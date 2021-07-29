@@ -32,10 +32,11 @@ class Game1 extends Component {
 
     async componentDidMount() {
         //import image
-        var i;
+
+        var j;
         var tempList = []
-        for (i=0; i<10 ;i++){
-            tempList.push("/img/posenet_img"+i+".png");
+        for (j=1; j<=12 ;j++){
+            tempList.push("/img/pose"+j+".png");
         } 
         this.setState({imgList : tempList});
         this.loadPoseNet().then(() => {this.changeAnswerPose()});
@@ -54,6 +55,7 @@ class Game1 extends Component {
     async estimatePoseOnImage(imageElement){
       // Estimate the pose on the imageElement
       const pose = await this.net.estimateSinglePose(imageElement);
+      console.log(pose);
       return pose;
     }
     gameStart = () => {
@@ -120,7 +122,7 @@ class Game1 extends Component {
 
       console.log(this.score.toString());
 
-      if(this.state.currentImgNum<8){
+      if(this.state.currentImgNum<10){
         this.changeImage();
         this.changeAnswerPose(); //answer pose 구하고 사진바꾸기
       }else{
