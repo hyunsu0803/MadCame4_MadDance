@@ -40,21 +40,19 @@ class Game1 extends Component {
             tempList.push("/img/pose"+j+".png");
         } 
         this.setState({imgList : tempList});
-        this.loadPoseNet().then(() => {this.changeAnswerPose()});
+        this.changeAnswerPose();
         this.setState({nickname : this.props.location.state.nickname});
     }
 
-    async loadPoseNet() {
+ 
+
+    async estimatePoseOnImage(imageElement){
       this.net = await posenet.load({
         architecture: 'MobileNetV1',
         outputStride: 16,
         inputResolution: { width: 640, height: 480 },
         multiplier: 0.75
       });
-      
-    }
-
-    async estimatePoseOnImage(imageElement){
       // Estimate the pose on the imageElement
       const pose = await this.net.estimateSinglePose(imageElement);
       console.log(pose);

@@ -33,6 +33,7 @@ class Game3 extends Component {
     total_score = 0;
     is_grading = false;
     answerPosesList = [undefined, undefined, poop1_poses, poop2_poses, undefined, poop3_poses, undefined, poop4_poses, poop5_poses];
+    criteria = [undefined, undefined, [1300, 1000], [1000, 900], undefined, [1900, 1700], undefined, [1700, 1600], [1700, 1500]];
 
     componentDidMount() {
         this.setState({nickname : this.props.location.state.nickname});
@@ -92,9 +93,10 @@ class Game3 extends Component {
                 cameraKeyPoints.push([tempList_per_body_x, tempList_per_body_y]);            
             }
 
+            this.run_dtw(answerKeyPoints, cameraKeyPoints);
             this.cameraPoses = [];
             this.setState({currentInterval : ci + 1});
-            this.run_dtw(answerKeyPoints, cameraKeyPoints);
+            
         
         } else {
             this.setState({currentInterval : ci + 1});
@@ -120,22 +122,25 @@ class Game3 extends Component {
         var interval_score = sum_of_distance / 34;
         this.total_score += this.getGrade(interval_score);
 
-        if (this.getGrade(interval_score) === 20) {
-            this.setState({scoreMent : "excellent"});
-        } else if (this.getGrade(interval_score) === 10) {
-            this.setState({scoreMent : "good"});
-        } else {
-            this.setState({scoreMent : "bad"});
-        }
+        console.log("####### interval_score ", interval_score);
+
     }
 
     getGrade = (interval_score) => {
-        if (interval_score > 2000) {
+
+        var ci = this.state.currentInterval;
+        var bad_cut = this.criteria[ci][0];
+        var excel_cut = this.criteria[ci][1];
+
+        if (interval_score > bad_cut) {
+            this.setState({scoreMent : "bad"});
             return 0;
-        }else if (interval_score > 1500) {
-            return 10;
-        }else {
+        } else if (interval_score <= excel_cut) {
+            this.setState({scoreMent : "excellent"});
             return 20;
+        } else {
+            this.setState({scoreMent : "good"});
+            return 10;
         }
     } 
 

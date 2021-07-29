@@ -129,6 +129,7 @@ class Game2 extends Component {
         console.log(this.similarityPerImg.toString());
         var currentScore = Math.min(...this.similarityPerImg)
         this.score.push(currentScore);
+        console.log("currentScore!!!!"+currentScore);
         if(currentScore<0.05){
             this.setState({scoreMent : "excellent"});
             this.totalScore+=10;
