@@ -51,7 +51,7 @@ class PoseNet extends Component {
                     this.setState({loading: false})
                 }, 200)
                 
-                this.props.videoStart();
+                // this.props.videoStart();
                 this.detectPose();
             }
         }
