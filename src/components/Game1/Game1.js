@@ -36,7 +36,7 @@ class Game1 extends Component {
 
         var j;
         var tempList = []
-        for (j=1; j<=12 ;j++){
+        for (j=0; j<=12 ;j++){
             tempList.push("/img/pose"+j+".png");
         } 
         this.setState({imgList : tempList});
@@ -201,7 +201,7 @@ class Game1 extends Component {
               <Modal className = "score_modal" isOpen={this.state.isModalOpen} close={this.closeModal} >
                 <div className = "score_info">Your Total Score is</div>
                 <div className = "score_total">{this.totalScore}</div>
-                <Link to={{pathname : "/home", state:{nickname : this.props.location.state.nickname}}}>
+                <Link to={{pathname : "/home", state:{nickname : this.state.nickname}}}>
                   <div class="button_base b05_3d_roll">
                     <div>HOME</div>
                     <div>HOME</div>
