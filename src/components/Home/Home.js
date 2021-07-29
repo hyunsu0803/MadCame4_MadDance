@@ -45,9 +45,21 @@ class Home extends Component {
     render() {
         let gameCard = 
         <div>
-            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 1</Link>
-            <Link to={{pathname : "/game2", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 2</Link>
-            <Link to={{pathname : "/game3", state:{nickname : this.state.nickname}}} className="carousel-item">GAME 3</Link>
+            <Link to={{pathname : "/game1", state:{nickname : this.state.nickname}}} className="carousel-item">
+                <div className = "carousel_thumbnail_wraper">
+                    <img className = "carousel_thumbnail" src = {"/img/thumbnail1.png"}></img>
+                </div>
+            </Link>
+            <Link to={{pathname : "/game2", state:{nickname : this.state.nickname}}} className="carousel-item">
+                <div className = "carousel_thumbnail_wraper">
+                    <img className = "carousel_thumbnail" src = {"/img/thumbnail3.png"}></img>
+                </div>
+            </Link>
+            <Link to={{pathname : "/game3", state:{nickname : this.state.nickname}}} className="carousel-item">
+                <div className = "carousel_thumbnail_wraper">
+                    <img className = "carousel_thumbnail" src = {"/img/thumbnail2.png"}></img>
+                </div>
+            </Link>
         </div>
 
         return(

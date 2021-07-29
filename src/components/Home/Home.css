@@ -8,3 +8,9 @@
     font-size : 50px;
     color : white;
 }
+.carousel_thumbnail_wraper{
+    display : inline-block;
+}
+.carousel_thumbnail{
+    height : 400px;
+}

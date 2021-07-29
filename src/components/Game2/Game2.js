@@ -187,7 +187,7 @@ class Game2 extends Component {
                 {this.state.showVideo ? 
                 <div className = "camera_box">
                     <video id="video" width="700" height="700"
-                    playsInline ref={(ref) => {this.video=ref}} style={{scaleX : -1}} onEnded = {this.videoEnd}> 
+                    playsInline ref={(ref) => {this.video=ref}} style={{transform:"scaleX(-1)"}} onEnded = {this.videoEnd}> 
                         <source src="/video/dun_dun_dance.mp4" type="video/mp4"></source>
                     </video>
                 </div> : null}
