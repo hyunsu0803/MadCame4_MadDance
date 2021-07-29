@@ -41,5 +41,8 @@ Login, HomePage, Game1, Game2, Game3
 https://github.com/tensorflow/tfjs-models/tree/master/posenet
 - skeleton 유사도 비교
 https://github.com/freshsomebody/posenet-similarity
-- dynamic mapping
+- 영상과 영상 유사도 비교
+https://github.com/kr1210/Human-Pose-Compare
+- dynamic time warping
+https://github.com/GordonLesti/dynamic-time-warping
 
