@@ -6,7 +6,6 @@ import Modal from 'react-modal';
 import axios from "axios";
 
 import Camera from './camera.js'
-import Timer from './timer.js'
 import './Game1.css'
 
 class Game1 extends Component {
