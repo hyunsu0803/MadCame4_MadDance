@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import Camera from './camera.js'
 import Video from './video.js'
 import Modal from 'react-modal';
 import './Game2.css'
-import Timer from './timer.js'
 import { poseSimilarity } from 'posenet-similarity';
 import * as posenet from '@tensorflow-models/posenet';
 import fs from 'fs';
@@ -223,15 +221,7 @@ class Game2 extends Component {
             
             // <Video></Video>
         )
-=======
-
-class Game3 extends Component {
-    render() {
-        return(
-            <div>Game2</div>
-        );
->>>>>>> hyunsoo
     }
 }
 
-export default Game3;
+export default Game2;
