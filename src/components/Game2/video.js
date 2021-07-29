@@ -180,23 +180,14 @@ class PoseNet extends Component {
             findPoseDetectionFrame();
     }
 
-    
-
-
-
     render() {
         return (
         <div className = "camera_box">
             <div>
-<<<<<<< HEAD
-                <video id="video" autoPlay="autoplay" width="700" height="700"
-                 playsInline ref={(ref) => {this.video=ref}} style={{display: "none"}}>
-                    <source src="/video/poop_1.mp4" type="video/mp4"></source>
-=======
+
                 <video id="video" width="700" height="700" controls="controls" currentTime={this.state.currentTime} onEnded = {this.videoEnd} onPause = {this.videoPause}
                  playsInline ref={(ref) => {this.video=ref}}>
                     <source src="/video/dundun_dance.mp4" type="video/mp4"></source>
->>>>>>> 45254fc32b6f1d4c539f41e71b22ebdf44109d7a
                 </video>
                 <canvas className="webcam" ref={(ref) => {this.canvas=ref}} />
             </div>
