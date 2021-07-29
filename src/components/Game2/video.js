@@ -24,42 +24,62 @@ class PoseNet extends Component {
     }
 
     constructor(props) {
-        super(props, PoseNet.defaultProps)
+        super(props, PoseNet.defaultProps);
+        this.state = {
+            currentTime : 0
+        }
     }
+    videoPoses = [];
+    videoClock = [];
 
     videoActive = true;
     async componentDidMount() {
-
         try {
             await this.setupVideo()
             } catch (error) {
             throw new Error(
               'This browser does not support video capture, or this device does not have a camera'
             )
-        }
-        // this.detectPose();
-        try {
-            this.posenet = await posenet.load({
-                architecture: 'MobileNetV1',
-                outputStride: 16,
-                inputResolution: { width: 640, height: 480 },
-                multiplier: 0.75
-            })
-        } catch (error) {
-        throw new Error('PoseNet failed to load')
-        } finally {
-            setTimeout(() => {
-                this.setState({loading: false})
-            }, 200)
-            
-            this.props.videoStart();
-            this.detectPose();
-            
+        }finally{
+            try {
+                this.posenet = await posenet.load({
+                    architecture: 'MobileNetV1',
+                    outputStride: 16,
+                    inputResolution: { width: 640, height: 480 },
+                    multiplier: 0.75
+                })
+            } catch (error) {
+            throw new Error('PoseNet failed to load')
+            } finally {
+                setTimeout(() => {
+                    this.setState({loading: false})
+                }, 200)
+                
+                // this.props.videoStart();
+                this.detectPose();
+            }
         }
     }
 
-    componentWillUnmount() {
+    videoEnded = ()=> {
         this.videoActive = false
+        console.log(this.videoPoses);
+        console.log(this.videoClock);
+    }
+
+    videoPause = () => {
+        console.log(document.getElementById("video").currentTime);
+
+        const  calculatePose = async () => {
+            const pose = await this.posenet.estimateSinglePose(
+                this.video, 
+                {imageScaleFactor:0.5, 
+                flipHorizontal:true, 
+                outputStride:16}
+                );
+            console.log(JSON.stringify(pose));
+        }
+        calculatePose();
     }
 
     async setupVideo() {
@@ -112,81 +132,71 @@ class PoseNet extends Component {
         const video = this.video
 
         const findPoseDetectionFrame = async () => {
-        let poses = []
-
-        // switch (algorithm) {
-        //     case 'multi-pose': {
-        //         poses = await posenetModel.estimateMultiplePoses(
-        //             video, 
-        //             imageScaleFactor, 
-        //             flipHorizontal, 
-        //             outputStride, 
-        //             maxPoseDetections, 
-        //             minPartConfidence, 
-        //             nmsRadius
-        //         )
-        //         break
-        //     }
-        //     case 'single-pose': {
-        //         const pose = await posenetModel.estimateSinglePose(
-        //             video, 
-        //             {imageScaleFactor:0.5, 
-        //             flipHorizontal:true, 
-        //             outputStride:16}
-        //         );
-        //         poses.push(pose);
-        //         // this.props.getSimilarity(pose);
-        //         this.props.getVideoPose(pose);
-        //         break
-        //     }
-        // }
-
-        canvasContext.clearRect(0, 0, videoWidth, videoHeight)
-
-        if (showVideo) {
-            canvasContext.save()
-            canvasContext.scale(-1, 1)
-            canvasContext.translate(-videoWidth, 0)
-            //canvasContext.drawImage(video, 0, 0, videoWidth, videoHeight, 0, 0,700,700)
-            canvasContext.drawImage(video, 0, 0, 1050, 1050, 0, 0, 700, 700)
-            canvasContext.restore()
-        }
-
-        // poses.forEach(({score, keypoints}) => {
-        //     if (score >= minPoseConfidence) {
-        //         if (showPoints) {
-        //             drawKeyPoints(
-        //             keypoints,
-        //             minPartConfidence,
-        //             skeletonColor,
-        //             canvasContext
-        //             )
-        //         }
-        //         if (showSkeleton) {
-        //             drawSkeleton(
-        //             keypoints,
-        //             minPartConfidence,
-        //             skeletonColor,
-        //             skeletonLineWidth,
-        //             canvasContext
-        //             )
-        //         }
-        //     }
-        // })
-            if(this.videoActive){
-                requestAnimationFrame(findPoseDetectionFrame)
+            let poses = []
+            this.videoClock.push(document.getElementById("video").currentTime);                
+            const pose = await posenetModel.estimateSinglePose(
+                video, 
+                {imageScaleFactor:0.5, 
+                flipHorizontal:true, 
+                outputStride:16}
+                );
+                poses.push(pose);
+                this.videoPoses.push(pose);
+                // this.props.getSimilarity(pose); 
+                // this.props.getCameraPose(pose);
+      
+      
+            canvasContext.clearRect(0, 0, videoWidth, videoHeight)
+      
+            // if (showVideo) {
+            //   canvasContext.save()
+            //   canvasContext.scale(-1, 1)
+            //   canvasContext.translate(-videoWidth, 0)
+            //   canvasContext.drawImage(video, 0, 0, 700,700, 0, 0,700,700)
+            //   canvasContext.restore()
+            // }
+      
+            poses.forEach(({score, keypoints}) => {
+              if (score >= minPoseConfidence) {
+                  drawKeyPoints(
+                    keypoints,
+                    minPartConfidence,
+                    skeletonColor,
+                    canvasContext
+                  )
+                  drawSkeleton(
+                    keypoints,
+                    minPartConfidence,
+                    skeletonColor,
+                    skeletonLineWidth,
+                    canvasContext
+                  )
+              }
+            })
+            if(true){
+              requestAnimationFrame(findPoseDetectionFrame)
             }
-        }
-        findPoseDetectionFrame()
+          }
+            findPoseDetectionFrame();
     }
+
+    
+
+
 
     render() {
         return (
         <div className = "camera_box">
             <div>
+<<<<<<< HEAD
                 <video id="video" autoPlay="autoplay" width="700" height="700"
                  playsInline ref={(ref) => {this.video=ref}} style={{display: "none"}}>
                     <source src="/video/poop_1.mp4" type="video/mp4"></source>
+=======
+                <video id="video" width="700" height="700" controls="controls" currentTime={this.state.currentTime} onEnded = {this.videoEnd} onPause = {this.videoPause}
+                 playsInline ref={(ref) => {this.video=ref}}>
+                    <source src="/video/dundun_dance.mp4" type="video/mp4"></source>
+>>>>>>> 45254fc32b6f1d4c539f41e71b22ebdf44109d7a
                 </video>
                 <canvas className="webcam" ref={(ref) => {this.canvas=ref}} />
             </div>
